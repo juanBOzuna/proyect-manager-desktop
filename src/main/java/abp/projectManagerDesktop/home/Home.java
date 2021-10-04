@@ -51,21 +51,20 @@ class VentanaHome extends JFrame implements MouseListener {
 
         setLayout(null);
         setVisible(true);
-
-        setSize((int) (widthScreenSize), (int) (heightScreenSize * 0.9));
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize((int) (widthScreenSize * .9), (int) (heightScreenSize * 0.9));
         setExtendedState(MAXIMIZED_BOTH);
+
         setResizable(false);
 
         panelP = new JPanel();
         panelP.setBounds(0, 0, getWidth(), getHeight());
         panelP.setLayout(null);
+
         initComponents();
 
         panelP.updateUI();
         panelP.repaint();
-//           this.repaint();
-//           SwingUtilities.updateComponentTreeUI(this );
-//           this.updateUI();
     }
 
     void initComponents() {
@@ -175,8 +174,10 @@ class VentanaHome extends JFrame implements MouseListener {
         //define scroll of home panel
         scrollContentHome = new JScrollPane();
         scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38);
-        //define scroll of home panel
+        scrollContentHome.getVerticalScrollBar().setUnitIncrement(20);
+        scrollContentHome.getHorizontalScrollBar().setUnitIncrement(20);
 
+        //define scroll of home panel
         //define panelContentHome
         contentHome = new JPanel();
         contentHome.setBackground(constantUtilities.secundaryColor);
@@ -197,6 +198,7 @@ class VentanaHome extends JFrame implements MouseListener {
         JLabel labelTitle;
         JLabel labelSubtitle;
 
+        //Add step
         for (int i = 0; i < 5; i++) {
             if (i > 0) {
                 xStep = widthStep + scrollStep.getX() + 83;
@@ -211,10 +213,9 @@ class VentanaHome extends JFrame implements MouseListener {
             //add title
 
             // add subtitle
-            int heightTitleStep = labelTitle.getHeight();
             labelSubtitle = new JLabel("Tienes 9 tareas pendientes el dia de hoy  ");
             labelSubtitle.setFont(new Font("Segoe UI", 0, 12));
-            labelSubtitle.setBounds(0, (int) (heightTitleStep * 3.5), widthStep, 14);
+            labelSubtitle.setBounds(0, (int) (labelTitle.getHeight() * 3.5), widthStep, 14);
             labelSubtitle.setForeground(Color.gray);
             // add subtitle
 
@@ -231,15 +232,17 @@ class VentanaHome extends JFrame implements MouseListener {
             headerStep.setBounds(xStep, yStep, widthStep, divider.getY() + 1);
             //Define what the test is
 
-            //Add title, subtitle and divider 
+            //Add title, subtitle and divider in header
             headerStep.add(labelTitle);
             headerStep.add(labelSubtitle);
             headerStep.add(divider);
-            //Add title, subtitle and divider 
+            //Add title, subtitle and divider in header
 
+            //define panel tasks
             tasks = new JPanel();
-//            tasks.setLayout(null);
-            //add tasks in step panel
+            //define panel tasks
+
+            //add task in tasks panel
             int yTask = 0;
             int heightTask = heightPanel / 13;
             ElementTask task;
@@ -252,35 +255,30 @@ class VentanaHome extends JFrame implements MouseListener {
                 task = new ElementTask(0, yTask, widthStep, heightTask);
                 tasks.add(task);
             }
-            //add tasks in step panel
+            //add tasks in tasks panel
 
-            //define properties of panel step
+            //define properties of tasks panel
             tasks.setLayout(null);
             tasks.setBackground(Color.white);
             tasks.setPreferredSize(new DimensionUIResource(widthStep, yTask + heightTask));
             tasks.setBackground(constantUtilities.secundaryColor);
-            //define properties of panel step
+            //define properties of tasks panel
 
-            //define scroll of panel step
+            //define scroll of tasks panel
             scrollStep = new JScrollPane();
             scrollStep.setBounds(xStep, headerStep.getHeight() + headerStep.getY(), widthStep + 20, heightStep - headerStep.getHeight());
             scrollStep.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
             scrollStep.setViewportView(tasks);
-            //define scroll of panel step
+            //define scroll of tasks panel
 
-//            step
             contentHome.add(headerStep);
             contentHome.add(scrollStep);
-            contentHome.updateUI();
-            contentHome.repaint();
-
         }
+        //Add step
+
         contentHome.setPreferredSize(new DimensionUIResource((widthPanelStep * 5) + (35 * 5), heightPanel - 20));
         contentHome.add(title);
 
-        scrollContentHome.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollContentHome.getVerticalScrollBar().setUnitIncrement(20);
-        scrollContentHome.getHorizontalScrollBar().setUnitIncrement(20);
         scrollContentHome.setViewportView(contentHome);
         panelP.add(scrollContentHome);
     }
@@ -334,19 +332,7 @@ class VentanaHome extends JFrame implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent evento) {
-        if (evento.getSource() == menuItemHome) {
-            constructModulHomeAftherSelectOthersModuls();
-//          panelP.remove(header);
-//          panelP.updateUI();
-//          panelP.repaint();
-
-        }
-        if (evento.getSource() == menuItemUsers) {
-            constructModulUsers();
-        }
-        if (evento.getSource() == menuItemTasks) {
-            constructModulProyects();
-        }
+        
     }
 
     public void mousePressed(MouseEvent evento) {
