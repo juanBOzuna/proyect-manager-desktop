@@ -42,18 +42,25 @@ class VentanaHome extends JFrame implements MouseListener {
     JPanel menuItemTasks;
     JPanel menuItemUsers;
     JLabel textAuxForPanelContent;
-    JPanel stepPanel;
+//    JPanel stepPanel;
+    JPanel headerStep;
+    JPanel tasks;
+    JScrollPane scrollStep;
 
     public VentanaHome(int widthScreenSize, int heightScreenSize) {
 
         setLayout(null);
         setVisible(true);
-        setResizable(false);
+
         setSize((int) (widthScreenSize), (int) (heightScreenSize * 0.9));
+        setExtendedState(MAXIMIZED_BOTH);
+        setResizable(false);
+
         panelP = new JPanel();
         panelP.setBounds(0, 0, getWidth(), getHeight());
         panelP.setLayout(null);
         initComponents();
+
         panelP.updateUI();
         panelP.repaint();
 //           this.repaint();
@@ -158,78 +165,117 @@ class VentanaHome extends JFrame implements MouseListener {
     }
 
     void constructPanelHome() {
+        //sizes
         int topPanelHeight = header.getHeight();
         int widthPanelDrawer = drawerStatic.getWidth();
         int heightPanel = heightWindow - topPanelHeight;
         int widthPanel = widthWindow - widthPanelDrawer;
+        //sizes
 
+        //define scroll of home panel
         scrollContentHome = new JScrollPane();
-        scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel);
+        scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38);
+        //define scroll of home panel
 
+        //define panelContentHome
         contentHome = new JPanel();
         contentHome.setBackground(constantUtilities.secundaryColor);
         contentHome.setLayout(null);
+        //define panelContentHome
 
+        //define title desktop
         JLabel title = new JLabel("Mi escritorio");
         title.setFont(new Font("Segoe UI Semibold", 0, 38));
         title.setBounds(30, 40, widthPanel, 38);
         int widthPanelStep = (int) (widthWindow * 0.30);
+        //define title desktop
 
-        JLabel labelTitleAux;
-
-        int XStep = 0;
+        int xStep = 0;
         int widthStep = (int) (widthWindow * 0.25);
         int yStep = (title.getY() * 2) + (int) (title.getHeight() * 0.8);
         int heightStep = (int) (heightPanel * 0.9) - yStep;
+        JLabel labelTitle;
+        JLabel labelSubtitle;
+
         for (int i = 0; i < 5; i++) {
             if (i > 0) {
-                XStep = stepPanel.getWidth() + stepPanel.getX() + 45;
+                xStep = widthStep + scrollStep.getX() + 83;
             } else {
-                XStep = 45;
+                xStep = 45;
             }
-            stepPanel = new JPanel();
-            labelTitleAux = new JLabel("Etapa " + (i + 1));
-            labelTitleAux.setFont(new Font("Segoe UI Semibold", 0, 21));
-            labelTitleAux.setBounds(0, 0, widthStep, 21);
-            stepPanel.add(labelTitleAux);
 
-            int heightTitleold = labelTitleAux.getHeight();
+            //add title
+            labelTitle = new JLabel("Etapa " + (i + 1));
+            labelTitle.setFont(new Font("Segoe UI Semibold", 0, 21));
+            labelTitle.setBounds(0, 0, widthStep, 21);
+            //add title
 
-            labelTitleAux = new JLabel("Tienes 9 tareas pendientes el dia de hoy  ");
-            labelTitleAux.setFont(new Font("Segoe UI", 0, 12));
-            labelTitleAux.setBounds(0, (int) (heightTitleold * 3.5), widthStep, 14);
-            labelTitleAux.setForeground(Color.gray);
-            stepPanel.add(labelTitleAux);
+            // add subtitle
+            int heightTitleStep = labelTitle.getHeight();
+            labelSubtitle = new JLabel("Tienes 9 tareas pendientes el dia de hoy  ");
+            labelSubtitle.setFont(new Font("Segoe UI", 0, 12));
+            labelSubtitle.setBounds(0, (int) (heightTitleStep * 3.5), widthStep, 14);
+            labelSubtitle.setForeground(Color.gray);
+            // add subtitle
 
+            //add divider
             JPanel divider = new JPanel();
-            divider.setBounds(0, labelTitleAux.getY() + (labelTitleAux.getHeight() * 2), widthStep, 1);
+            divider.setBounds(0, labelSubtitle.getY() + (labelSubtitle.getHeight() * 2), widthStep, 1);
             divider.setBackground(Color.black);
-            stepPanel.add(divider);
+            //add divider
 
+            //Define what the test is
+            headerStep = new JPanel();
+            headerStep.setLayout(null);
+            headerStep.setBackground(constantUtilities.secundaryColor);
+            headerStep.setBounds(xStep, yStep, widthStep, divider.getY() + 1);
+            //Define what the test is
+
+            //Add title, subtitle and divider 
+            headerStep.add(labelTitle);
+            headerStep.add(labelSubtitle);
+            headerStep.add(divider);
+            //Add title, subtitle and divider 
+
+            tasks = new JPanel();
+//            tasks.setLayout(null);
+            //add tasks in step panel
             int yTask = 0;
             int heightTask = heightPanel / 13;
-
-            for (int j = 0; j < 4; j++) {
+            ElementTask task;
+            for (int j = 0; j < 10; j++) {
                 if (j == 0) {
-                    yTask = divider.getY() + divider.getHeight();
+                    yTask = 0;
                 } else {
-                    yTask = heightTask + yTask  + 8;
+                    yTask = heightTask + yTask + 8;
                 }
-
-                ElementTask task = new ElementTask(0, yTask, widthPanel, heightTask);
-                stepPanel.add(task);
-
+                task = new ElementTask(0, yTask, widthStep, heightTask);
+                tasks.add(task);
             }
+            //add tasks in step panel
 
-            stepPanel.setLayout(null);
-            stepPanel.setBounds(XStep, yStep, widthStep, heightStep);
-            stepPanel.setBackground(Color.white);
+            //define properties of panel step
+            tasks.setLayout(null);
+            tasks.setBackground(Color.white);
+            tasks.setPreferredSize(new DimensionUIResource(widthStep, yTask + heightTask));
+            tasks.setBackground(constantUtilities.secundaryColor);
+            //define properties of panel step
 
-            contentHome.add(stepPanel);
+            //define scroll of panel step
+            scrollStep = new JScrollPane();
+            scrollStep.setBounds(xStep, headerStep.getHeight() + headerStep.getY(), widthStep + 20, heightStep - headerStep.getHeight());
+            scrollStep.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            scrollStep.setViewportView(tasks);
+            //define scroll of panel step
+
+//            step
+            contentHome.add(headerStep);
+            contentHome.add(scrollStep);
+            contentHome.updateUI();
+            contentHome.repaint();
 
         }
-        contentHome.setPreferredSize(new DimensionUIResource((widthPanelStep * 5) + (35 * 5), heightPanel));
-
+        contentHome.setPreferredSize(new DimensionUIResource((widthPanelStep * 5) + (35 * 5), heightPanel - 20));
         contentHome.add(title);
 
         scrollContentHome.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
