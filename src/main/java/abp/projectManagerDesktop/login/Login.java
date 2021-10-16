@@ -6,6 +6,8 @@
 package abp.projectManagerDesktop.login;
 
 import abp.projectManagerDesktop.constants.constantUtilities;
+import abp.projectManagerDesktop.providers.UserPreferences;
+import abp.projectManagerDesktop.register.Register;
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
@@ -19,10 +21,12 @@ public class Login {
 
     static int width = Toolkit.getDefaultToolkit().getScreenSize().width;
     static int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+    static UserPreferences prefs = new UserPreferences();
 
     public static void main(String[] args) {
         VentanaLogin v = new VentanaLogin(width, height);
     }
+
 }
 
 class VentanaLogin extends JFrame implements MouseListener {
@@ -34,6 +38,8 @@ class VentanaLogin extends JFrame implements MouseListener {
     JLabel picLabelLoading;
     Tfmfld inputEmail;
     Tfmfld inputPassword;
+    JLabel register;
+//    ConectionPreferences prefs = new ConectionPreferences();
 
     public VentanaLogin(int widthScreenSize, int heightScreenSize) {
         panelP = new JPanel();
@@ -84,7 +90,7 @@ class VentanaLogin extends JFrame implements MouseListener {
                 widthImage,
                 heightImage);
         description.add(picLabel);
-        
+
         panelP.add(description);
     }
 
@@ -115,7 +121,7 @@ class VentanaLogin extends JFrame implements MouseListener {
         inputEmail = new Tfmfld(picLabelIconUser.getX() + picLabelIconUser.getWidth(), picLabelIconUser.getY(), form.getWidth() - picLabelIconUser.getWidth() - 60, picLabelIconUser.getHeight(), " Correo", false);
         form.add(inputEmail);
 
-        inputPassword = new Tfmfld(picLabelIconLock.getX() + picLabelIconLock.getWidth(), picLabelIconLock.getY(), form.getWidth() - picLabelIconLock.getWidth() - 60, picLabelIconLock.getHeight(), " Contraseña", true);
+        inputPassword = new Tfmfld(picLabelIconLock.getX() + picLabelIconLock.getWidth(), picLabelIconLock.getY(), form.getWidth() - picLabelIconLock.getWidth() - 60, picLabelIconLock.getHeight(), " *******", true);
         form.add(inputPassword);
 
         button = new JPanel();
@@ -131,6 +137,14 @@ class VentanaLogin extends JFrame implements MouseListener {
         button.setVisible(true);
         form.add(button);
 
+        register = new JLabel("Registrarse");
+        register.setBounds(button.getX(), button.getY() + button.getHeight() + 5, button.getWidth(), button.getHeight());
+        register.setHorizontalAlignment(SwingConstants.CENTER);
+        register.setCursor(new Cursor(HAND_CURSOR));
+        register.setForeground(constantUtilities.primaryColor);
+        register.addMouseListener(this);
+        form.add(register);
+
         Icon imgLoading = new ImageIcon("C:\\Users\\juan barraza\\IdeaProjects\\step_gui_abp\\src\\icons\\loading1.gif");
         picLabelLoading = new JLabel(imgLoading);
         picLabelLoading.setBounds((form.getWidth() / 2) - 25, inputPassword.getY() + 50, 50, 50);
@@ -142,26 +156,37 @@ class VentanaLogin extends JFrame implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent evento) {
-        if (inputEmail.GetFormValue().equals(inputEmail.getTitleGeneral())) {
-            JOptionPane.showMessageDialog(null, "El correo es obligatorio");
-        } else if (inputPassword.equals(inputPassword.getTitleGeneral())) {
-            JOptionPane.showMessageDialog(null, "La contraseña es obligatorio");
-        } else {
-            if (evento.getSource() == button) {
-                if (inputEmail.validateForm() && inputPassword.validateForm()) {
-                    button.setVisible(false);
-                    picLabelLoading.setVisible(true);
-                    panelP.updateUI();
-                    panelP.repaint();
-                } else {
-                    String msg = "El correo solo debe tener un arroba y hasta 2 puntos \nla contraseña debe tener mas de 8 caracteres";
-                    JOptionPane.showMessageDialog(null, msg);
+
+        if (evento.getSource() == button) {
+            if (inputEmail.GetFormValue().equals(inputEmail.getTitleGeneral())) {
+                JOptionPane.showMessageDialog(null, "El correo es obligatorio");
+            } else if (inputPassword.getPass().equals(inputPassword.getTitleGeneral())) {
+                JOptionPane.showMessageDialog(null, "La contraseña es obligatorio");
+            } else {
+                if (evento.getSource() == button) {
+                    if (inputEmail.validateForm() && inputPassword.validateForm()) {
+                        button.setVisible(false);
+                        picLabelLoading.setVisible(true);
+
+//                        prefs.putInt("token", width);
+                        panelP.updateUI();
+                        panelP.repaint();
+                    } else {
+                        String msg = "El correo debe tener un arroba y hasta 2 puntos \nla contraseña debe tener 8 caracteres";
+                        JOptionPane.showMessageDialog(null, msg);
+                    }
                 }
             }
+        }
+
+        if (evento.getSource() == register) {
+            Register.main(null);
+            this.dispose();
         }
     }
 
     public void mousePressed(MouseEvent e) {
+
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -255,7 +280,7 @@ class Tfmfld extends JPanel {
                     countCaracterPoints++;
                 }
             }
-            if (form.getText().equals(titleGeneral) || !(countCaracterArroba == 1) || countCaracterPoints > 2 || countCaracterPoints == 0) {
+            if (!(countCaracterArroba == 1) || countCaracterPoints > 2 || countCaracterPoints == 0) {
                 return false;
             } else {
                 return true;
@@ -267,6 +292,10 @@ class Tfmfld extends JPanel {
                 return true;
             }
         }
+    }
+
+    String getPass() {
+        return String.valueOf(formPass.getPassword());
     }
 
     void cleanForm() {
