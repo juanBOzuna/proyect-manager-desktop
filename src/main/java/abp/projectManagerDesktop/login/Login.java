@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.event.*;
+import abp.projectManagerDesktop.home.Home;
 
 /**
  *
@@ -25,6 +26,7 @@ public class Login {
 
     public static void main(String[] args) {
         VentanaLogin v = new VentanaLogin(width, height);
+//System.out.println("juan");
     }
 
 }
@@ -171,6 +173,8 @@ class VentanaLogin extends JFrame implements MouseListener {
 //                        prefs.putInt("token", width);
                         panelP.updateUI();
                         panelP.repaint();
+                        this.dispose();
+                        Home.main(null);
                     } else {
                         String msg = "El correo debe tener un arroba y hasta 2 puntos \nla contraseña debe tener 8 caracteres";
                         JOptionPane.showMessageDialog(null, msg);
