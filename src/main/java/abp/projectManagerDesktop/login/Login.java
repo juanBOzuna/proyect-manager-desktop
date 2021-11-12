@@ -173,8 +173,8 @@ class VentanaLogin extends JFrame implements MouseListener {
 //                        prefs.putInt("token", width);
                         panelP.updateUI();
                         panelP.repaint();
-                        this.dispose();
-                        Home.main(null);
+//                        this.dispose();
+//                        Home.main(null);
                     } else {
                         String msg = "El correo debe tener un arroba y hasta 2 puntos \nla contraseña debe tener 8 caracteres";
                         JOptionPane.showMessageDialog(null, msg);

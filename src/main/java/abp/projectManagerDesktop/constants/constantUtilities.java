@@ -15,6 +15,8 @@ import javax.swing.plaf.ColorUIResource;
  */
 public class constantUtilities {
 
+    final static public String ROLE_EMPLEADO = "empleado";
+    final static public String ROLE_PROMOTOR = "promotor";
     final static public ColorUIResource primaryColor = new ColorUIResource(31, 124, 197);
     final static public Color secundaryColor = Color.WHITE;
     final static public ColorUIResource colorItemEnteredOfDrawer = new ColorUIResource(30, 40, 44);
