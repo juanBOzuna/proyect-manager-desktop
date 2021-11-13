@@ -21,6 +21,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.border.Border;
 import javax.swing.plaf.DimensionUIResource;
 
 /**
@@ -60,7 +61,8 @@ class VentanaHome extends JFrame implements MouseListener {
     JScrollPane scrollStep;
     JLabel iconReload;
     JLabel iconAdd;
-
+    JPanel panelTitleHome;
+    UsersModule createUserModule;
     JPanel menuItemAux;
 
     public VentanaHome(int widthScreenSize, int heightScreenSize) throws IOException {
@@ -73,6 +75,7 @@ class VentanaHome extends JFrame implements MouseListener {
         panelP = new JPanel();
         panelP.setBounds(0, 0, getWidth(), getHeight());
         panelP.setLayout(null);
+        panelP.setBackground(Color.white);
 
         initComponents();
 
@@ -190,38 +193,19 @@ class VentanaHome extends JFrame implements MouseListener {
     }
 
     void constructPanelHome(boolean after) throws IOException {
-        //sizes
         int topPanelHeight = header.getHeight();
         int widthPanelDrawer = drawerStatic.getWidth();
         int heightPanel = heightWindow - topPanelHeight;
         int widthPanel = widthWindow - widthPanelDrawer;
-        //sizes
 
-        //define scroll of home panel
-        if (after) {
-            scrollContentHome = new JScrollPane();
-            scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38);
-            scrollContentHome.getVerticalScrollBar().setUnitIncrement(20);
-            scrollContentHome.getHorizontalScrollBar().setUnitIncrement(20);
-        } else {
-            scrollContentHome = scrollContentHome;
-        }
-
-        //define scroll of home panel
-        //define panelContentHome
-        contentHome = new JPanel();
-        contentHome.setBackground(constantUtilities.secundaryColor);
-        contentHome.setLayout(null);
-        //define panelContentHome
-
-        //define title desktop
+//         define title desktop
         JLabel title = new JLabel("Mi escritorio");
-        title.setFont(new Font("Segoe UI Semibold", 0, 38));
-        title.setBounds(30, 40, (int) (widthPanel * 0.75), 38);
+        title.setFont(new Font("Segoe UI Semibold", 0, 42));
+        title.setBounds(30, topPanelHeight - 20, (int) (widthPanel * 0.75), 40);
         int widthPanelStep = (int) (widthWindow * 0.30);
         //define title desktop
 
-        //icon Add
+//        icon Add
         Image imgAdd = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/add.png").getImage();
         ImageIcon imgAdd2 = new ImageIcon(imgAdd.getScaledInstance(title.getHeight(), title.getHeight(), Image.SCALE_SMOOTH));
         iconAdd = new JLabel();
@@ -241,17 +225,46 @@ class VentanaHome extends JFrame implements MouseListener {
         iconReload.setBounds((widthPanel - 100) - title.getHeight(), title.getY(), title.getHeight(), title.getHeight());
         //icon Reload
 
+        //define panel of title
+        panelTitleHome = new JPanel();
+        panelTitleHome.setLayout(null);
+        panelTitleHome.setBounds(widthPanelDrawer + 1, topPanelHeight, widthPanel, topPanelHeight * 2);
+
+        // add elements of title
+        panelTitleHome.add(title);
+        panelTitleHome.setBackground(Color.WHITE);
+        panelTitleHome.add(iconAdd);
+        panelTitleHome.add(iconReload);
+        // add elements of title
+
+        //add panel title
+        panelP.add(panelTitleHome);
+        //add panel title
+
+        //define scroll content
+        scrollContentHome = new JScrollPane();
+        scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight + panelTitleHome.getHeight(), widthPanel, heightPanel - panelTitleHome.getHeight() - 38);
+        scrollContentHome.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scrollContentHome.getVerticalScrollBar().setUnitIncrement(20);
+        scrollContentHome.getHorizontalScrollBar().setUnitIncrement(20);
+        //define scroll content
+
+        //define content
+        contentHome = new JPanel();
+        contentHome.setBackground(constantUtilities.secundaryColor);
+        contentHome.setLayout(null);
+        //define content
+
         int xStep = 0;
         int widthStep = (int) (widthWindow * 0.25);
-        int yStep = (title.getY() * 2) + (int) (title.getHeight() * 0.8);
-        int heightStep = (int) (heightPanel * 0.9) - yStep;
+        int yStep = 20;
+        int heightStep = (int) ((heightPanel - panelTitleHome.getHeight()) * 0.9) - yStep;
         JLabel labelTitle;
         JLabel labelSubtitle;
 
         ArrayList<ResponseGetProjectsAdminModel> projects = getProjectsAdmin();
         System.out.println(projects);
-
-        //Add step
+//        //Add step
         for (int i = 0; i < projects.size(); i++) {
 
             if (i > 0) {
@@ -267,8 +280,8 @@ class VentanaHome extends JFrame implements MouseListener {
             attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 //            labelTitle.setFont(font.deriveFont(attributes). );
 
-            labelTitle.setFont(new Font("Segoe UI Semibold", 0, 23));
-            labelTitle.setBounds(0, 0, widthStep, 23);
+            labelTitle.setFont(new Font("Segoe UI", 0, 25));
+            labelTitle.setBounds(0, 0, widthStep, 35);
             //add title
 
             DecimalFormat formato1 = new DecimalFormat("#.00");
@@ -276,7 +289,7 @@ class VentanaHome extends JFrame implements MouseListener {
             // add subtitle
             labelSubtitle = new JLabel("Porcentaje del proyecto: " + formato1.format(projects.get(i).getProject().getPercentageCompleted()) + " %");
             labelSubtitle.setFont(new Font("Segoe UI", 0, 12));
-            labelSubtitle.setBounds(0, (int) (labelTitle.getHeight() * 3.5), widthStep, 14);
+            labelSubtitle.setBounds(0, (int) (labelTitle.getHeight() * 2.5), widthStep, 14);
             labelSubtitle.setForeground(Color.gray);
             // add subtitle
 
@@ -330,7 +343,7 @@ class VentanaHome extends JFrame implements MouseListener {
 
             //define scroll of tasks panel
             scrollStep = new JScrollPane();
-            scrollStep.setBounds(xStep, headerStep.getHeight() + headerStep.getY(), widthStep + 20, heightStep - headerStep.getHeight());
+            scrollStep.setBounds(xStep, headerStep.getHeight() + headerStep.getY() - 2, widthStep + 20, heightStep - headerStep.getHeight());
             scrollStep.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
             scrollStep.setViewportView(tasks);
             //define scroll of tasks panel
@@ -338,46 +351,13 @@ class VentanaHome extends JFrame implements MouseListener {
             contentHome.add(headerStep);
             contentHome.add(scrollStep);
         }
-        //Add step
+//        //Add step
 
-        contentHome.setPreferredSize(new DimensionUIResource((widthPanelStep * projects.size()) + (35 * projects.size()), heightPanel - 20));
-        contentHome.add(title);
-        contentHome.add(iconAdd);
-        contentHome.add(iconReload);
+        contentHome.setPreferredSize(new DimensionUIResource((widthPanelStep * projects.size()) + (35 * projects.size()), (heightPanel - title.getHeight()) - 20));
         scrollContentHome.setViewportView(contentHome);
         panelP.add(scrollContentHome);
     }
 
-//    void constructModulProyects() {
-//        int topPanelHeight = header.getHeight();
-//        int widthPanelDrawer = drawerStatic.getWidth();
-//        int heightPanel = heightWindow - topPanelHeight;
-//        int widthPanel = widthWindow - widthPanelDrawer;
-//        contentHome.removeAll();
-//        contentHome.updateUI();
-//        contentHome.repaint();
-//
-//        contentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel);
-//        contentHome.setBackground(constantUtilities.secundaryColor);
-//        textAuxForPanelContent = new JLabel();
-//        textAuxForPanelContent.setText("Proyectos");
-//        contentHome.add(textAuxForPanelContent);
-//    }
-//    void constructModulUsers() {
-//        int topPanelHeight = header.getHeight();
-//        int widthPanelDrawer = drawerStatic.getWidth();
-//        int heightPanel = heightWindow - topPanelHeight;
-//        int widthPanel = widthWindow - widthPanelDrawer;
-//        contentHome.removeAll();
-//        contentHome.updateUI();
-//        contentHome.repaint();
-//
-//        contentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel);
-//        contentHome.setBackground(constantUtilities.secundaryColor);
-//        textAuxForPanelContent = new JLabel();
-//        textAuxForPanelContent.setText("Usuarios");
-//        contentHome.add(textAuxForPanelContent);
-//    }
     ArrayList<ResponseGetProjectsAdminModel> getProjectsAdmin() {
 
         try {
@@ -398,8 +378,15 @@ class VentanaHome extends JFrame implements MouseListener {
 
             contentHome.removeAll();
 
-            UsersModule createUserModule = new UsersModule(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38);
+            panelTitleHome.removeAll();
+            panelTitleHome.updateUI();
+            panelTitleHome.repaint();
 
+            panelP.remove(panelTitleHome);
+            panelP.updateUI();
+            panelP.repaint();
+
+            createUserModule = new UsersModule(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38, this);
             scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38);
             scrollContentHome.setViewportView(createUserModule);
             scrollContentHome.setBackground(Color.white);
@@ -409,33 +396,75 @@ class VentanaHome extends JFrame implements MouseListener {
         }
 
         if (evento.getSource() == menuItemHome) {
+
             try {
-                reloadHome();
+                panelP.remove(scrollContentHome);
+                scrollContentHome.removeAll();
+
+                createUserModule = null;
+                contentHome.removeAll();
+                panelTitleHome.removeAll();
+                panelP.remove(panelTitleHome);
+                panelP.remove(contentHome);
+                reloadHome(false);
+                panelTitleHome.updateUI();
+                panelTitleHome.repaint();
+                scrollContentHome.setBackground(Color.white);
+                scrollContentHome.updateUI();
+                scrollContentHome.repaint();
+
             } catch (IOException e) {
             }
         }
         if (evento.getSource() == iconAdd) {
             DialogRegisterProject d = new DialogRegisterProject(this, false);
+            d.addWindowListener(new java.awt.event.WindowAdapter() {
+                public void windowClosing(WindowEvent winEvt) {
+                    try {
+                        panelP.remove(scrollContentHome);
+                        scrollContentHome.removeAll();
+
+                        createUserModule = null;
+                        contentHome.removeAll();
+                        panelTitleHome.removeAll();
+                        panelP.remove(panelTitleHome);
+                        panelP.remove(contentHome);
+                        reloadHome(false);
+                        panelTitleHome.updateUI();
+                        panelTitleHome.repaint();
+                        scrollContentHome.setBackground(Color.white);
+                        scrollContentHome.updateUI();
+                        scrollContentHome.repaint();
+                    } catch (IOException e) {
+                    }
+                }
+            });
             d.setVisible(true);
         }
 
         if (evento.getSource() == iconReload) {
             try {
-                reloadHome();
+                panelP.remove(scrollContentHome);
+                scrollContentHome.removeAll();
+
+                createUserModule = null;
+                contentHome.removeAll();
+                panelTitleHome.removeAll();
+                panelP.remove(panelTitleHome);
+                panelP.remove(contentHome);
+                reloadHome(false);
+                panelTitleHome.updateUI();
+                panelTitleHome.repaint();
+                scrollContentHome.setBackground(Color.white);
+                scrollContentHome.updateUI();
+                scrollContentHome.repaint();
             } catch (IOException e) {
             }
         }
 
     }
 
-    void reloadHome() throws IOException {
-        contentHome.removeAll();
-        contentHome.setBackground(Color.white);
-
-        contentHome.updateUI();
-        contentHome.repaint();
-        contentHome = null;
-
+    void reloadHome(boolean fromUser) throws IOException {
         constructPanelHome(false);
         contentHome.updateUI();
         contentHome.repaint();

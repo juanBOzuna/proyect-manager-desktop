@@ -62,7 +62,7 @@ public class ElementTaskAdmin extends JPanel {
         title.setLayout(new GridLayout(1, 1));
         title.setBounds(10, heightPanel / 2, picLabel.getX() - 20, (heightPanel / 2) - 5);
 
-        JLabel titleText = new JLabel("nombre de la tarea");
+        JLabel titleText = new JLabel(task.getTask().getName());
         title.add(titleText);
 
         JPanel isCompleted = new JPanel();

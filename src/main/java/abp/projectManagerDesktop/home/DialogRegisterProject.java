@@ -19,6 +19,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -26,6 +27,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.management.StringValueExp;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -49,73 +51,113 @@ public class DialogRegisterProject extends JDialog {
     JComboBox comboFinishYear;
     JComboBox comboFinishDay;
     JComboBox comboFinishMonth;
+    JComboBox promotorsComb;
+    String dayInit = "1", monthInit = "1", yearInit = "0";
+    String dayFinish = "1", monthFinish = "1", yearFinish = "0";
+    Tfmfld formName;
+    Tfmfld formComercial_designation;
+    Tfmfld formKey_name;
     JLabel titleInit;
     JLabel titleFinish;
+    Long promotorID;
+    ArrayList<UserModel> promotors = new ArrayList<UserModel>();
 
     public DialogRegisterProject(JFrame padre, Boolean modo) {
         super(padre, modo);
-        setBounds(150, 150, 400, 400);
-        setTitle("Agregar nuevo proyecto");
-        setLayout(null);
-        initComponents();
-
-//        add(panelP);
-    }
-
-    private void initComponents() {
         GetPromotors getPromotors = new GetPromotors();
-        ArrayList<UserModel> promotors = new ArrayList<UserModel>();
 
         try {
-            promotors = getPromotors.getPromotrs();
+            this.promotors = getPromotors.getPromotrs();
         } catch (IOException e) {
         }
 
-        Tfmfld name = new Tfmfld(20, 30, (getWidth() / 2) - 30, getWidth() / 10, "Name", false, false, true);
-        Tfmfld key_name = new Tfmfld((getWidth() / 2) + 10, 30, (getWidth() / 2) - 40, getWidth() / 10, "Apellidos", false, false, true);
+        setBounds(150, 150, 400, 400);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setTitle("Agregar nuevo proyecto");
+        setLayout(null);
+        initComponents();
+    }
 
-        Tfmfld comercial_designation = new Tfmfld(20, key_name.getY() + key_name.getHeight() + 10, (getWidth() / 2) - 30, getWidth() / 10, "dni", false, true, false);
-        dateInit(comercial_designation.getY() + comercial_designation.getHeight() + 10);
+    private void initComponents() {
+
+        formName = new Tfmfld(20, 30, (getWidth() / 2) - 30, getWidth() / 10, "Nombre ", false, false, false);
+        formKey_name = new Tfmfld((getWidth() / 2) + 10, 30, (getWidth() / 2) - 40, getWidth() / 10, "Nombre en clave", false, false, false);
+
+        formComercial_designation = new Tfmfld(20, formKey_name.getY() + formKey_name.getHeight() + 10, (getWidth() / 2) - 30, getWidth() / 10, "Denominacion comercial", false, false, false);
+        dateInit(formComercial_designation.getY() + formComercial_designation.getHeight() + 10);
         dateFinish(comboInitDay.getY() + comboInitDay.getHeight());
 
-        JComboBox promotorsComb = new JComboBox();
-        promotorsComb.setBounds((getWidth() / 2) + 10, key_name.getY() + key_name.getHeight() + 10, (getWidth() / 2) - 40, 30);
+        promotorsComb = new JComboBox();
+        promotorsComb.setBounds((getWidth() / 2) + 10, formKey_name.getY() + formKey_name.getHeight() + 10, (getWidth() / 2) - 40, 30);
 
         try {
+//            for (int i = 0; i < promotors.size(); i++) {
+//                 promotorsComb.addItem(promotors.get(i).getName());
+//                
+//            }
+            
+            int id = 0;
             for (UserModel promotor : promotors) {
+                id++;
                 promotorsComb.addItem(promotor.getName());
+                if (id == 1) {
+                    promotorID = promotor.getId();
+                }
+                System.out.println("1) Promotor: =--------" + promotorID);
             }
         } catch (Exception e) {
         }
 
+        promotorsComb.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent itemEvent) {
+                setPromotorId(String.valueOf(promotorsComb.getSelectedItem()), promotors);
+                System.out.println("Promotor: =--------" + promotorID
+                );
+            }
+        });
+
         add(promotorsComb);
 
         JLabel titlePromotorsComb = new JLabel("Promotor");
-        titlePromotorsComb.setBounds((getWidth() / 2) + 10, key_name.getY() + key_name.getHeight() + 30, promotorsComb.getWidth(), 50);
+        titlePromotorsComb.setBounds((getWidth() / 2) + 10, formKey_name.getY() + formKey_name.getHeight() + 30, promotorsComb.getWidth(), 50);
         add(titlePromotorsComb);
 
-        add(key_name);
-        add(comercial_designation);
-        add(name);
+        add(formKey_name);
+        add(formComercial_designation);
+        add(formName);
 
-        JButton send = new JButton();
+        JButton send = new JButton("Enviar");
+        send.setBounds(promotorsComb.getX(), comboFinishDay.getY() + comboFinishDay.getHeight() + 20, promotorsComb.getWidth(), promotorsComb.getHeight() + 10);
 
         send.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                sendProjectToProvider();
             }
         });
+
+        add(send);
 
     }
 
     void sendProjectToProvider() {
-        long time = System.currentTimeMillis();
-        Timestamp timestamp = new Timestamp(time);
-        Instant instant = timestamp.toInstant();
-        System.out.println("Current Time Stamp: " + instant);
+//         formName;
+//    Tfmfld formComercial_designation;
+//    Tfmfld formKey_name;
+//        Long promotorId = 0L;
+
         PostProjectProvider p = new PostProjectProvider();
         try {
-            p.postProyect();
+            boolean call = p.postProyect(formName.GetFormValue(),
+                    formKey_name.GetFormValue(),
+                    formComercial_designation.GetFormValue(),
+                    yearInit + "-" + monthInit + "-" + dayInit + " 00:00:00",
+                    yearFinish + "-" + monthFinish + "-" + dayFinish + " 00:00:00",
+                    promotorID
+            );
+
+            if (call) {
+                this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+            }
 
         } catch (IOException e) {
         }
@@ -133,6 +175,7 @@ public class DialogRegisterProject extends JDialog {
         int year = localDate.getYear();
         int month = localDate.getMonthValue();
         int day = localDate.getDayOfMonth();
+        yearFinish = String.valueOf(year);
         for (int i = year; i < (year + 50); i++) {
             comboFinishYear.addItem("" + (i));
         }
@@ -153,7 +196,7 @@ public class DialogRegisterProject extends JDialog {
         comboFinishMonth.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent itemEvent) {
                 try {
-
+                    monthFinish = String.valueOf(comboFinishMonth.getSelectedItem());
                     int msS = comboFinishMonth.getSelectedIndex();
                     int max = 0;
                     comboFinishDay.removeAllItems();
@@ -172,11 +215,22 @@ public class DialogRegisterProject extends JDialog {
             }
         });
 
+        comboFinishDay.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent itemEvent) {
+                dayFinish = String.valueOf(comboFinishDay.getSelectedItem());
+            }
+        });
+
+        comboFinishYear.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent itemEvent) {
+                yearFinish = String.valueOf(comboFinishYear.getSelectedItem());
+            }
+        });
+
         add(titleFinish);
         add(comboFinishYear);
         add(comboFinishMonth);
         add(comboFinishDay);
-//        dateFinish(comboInitDay.getY() + comboInitDay.getHeight() + 20);
     }
 
     void dateInit(int yYear) {
@@ -190,6 +244,7 @@ public class DialogRegisterProject extends JDialog {
         int year = localDate.getYear();
         int month = localDate.getMonthValue();
         int day = localDate.getDayOfMonth();
+        yearInit = String.valueOf(year);
         for (int i = year; i < (year + 50); i++) {
             comboInitYear.addItem("" + (i));
         }
@@ -210,6 +265,11 @@ public class DialogRegisterProject extends JDialog {
         comboInitMonth.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent itemEvent) {
                 try {
+                    comboInitMonth.addItemListener(new ItemListener() {
+                        public void itemStateChanged(ItemEvent itemEvent) {
+                            monthInit = String.valueOf(comboInitMonth.getSelectedItem());
+                        }
+                    });
                     int msS = comboInitMonth.getSelectedIndex();
                     int max = 0;
                     comboInitDay.removeAllItems();
@@ -228,6 +288,18 @@ public class DialogRegisterProject extends JDialog {
             }
         });
 
+        comboInitDay.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent itemEvent) {
+                dayInit = String.valueOf(comboInitDay.getSelectedItem());
+            }
+        });
+
+        comboInitYear.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent itemEvent) {
+                yearInit = String.valueOf(comboInitYear.getSelectedItem());
+            }
+        });
+
         add(titleInit);
         add(comboInitYear);
         add(comboInitMonth);
@@ -240,6 +312,17 @@ public class DialogRegisterProject extends JDialog {
 //        promotorsComb.setBounds(key_name.getX(), key_name.getY(), key_name.getWidth(), 30);
 //        add(promotorsComb);
 
+    }
+
+    void setPromotorId(String name, ArrayList<UserModel> promotors) {
+        try {
+            for (UserModel promotor : promotors) {
+                if (promotor.getName().equals(name)) {
+                    promotorID = promotor.getId();
+                }
+            }
+        } catch (Exception e) {
+        }
     }
 }
 

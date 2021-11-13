@@ -21,7 +21,7 @@ public class UserModel {
     private String address;
     private String number_phone;
     private String email;
-    private Timestamp created_at;
+    private String hiring_date;
     private String role;
 
     public Long getId() {
@@ -80,12 +80,12 @@ public class UserModel {
         this.email = email;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public String getHiring_date() {
+        return hiring_date;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setHiring_date(String hiring_date) {
+        this.hiring_date = hiring_date;
     }
 
     public String getRole() {

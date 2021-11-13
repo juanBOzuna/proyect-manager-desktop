@@ -10,15 +10,22 @@ package abp.projectManagerDesktop.providers;
  * @author juan barraza
  */
 import java.io.*;
+import java.sql.Timestamp;
 import okhttp3.*;
 
 public class PostProjectProvider {
 
-    public void postProyect() throws IOException {
+    public Boolean postProyect(String name, String key_name, String comercial_designation, String date_init, String date_finish, long promotor_id) throws IOException {
+        System.out.println("Usuario promotor: " + promotor_id);
+
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\r\n    \"name\":\"pllasd\",\r\n    \"key_name\":\"asdasd\",\r\n    \"comercial_designation\":\"asdds\",\r\n    \"date_init\":\"2021-11-1 00:00:00.000000\"\r\n}");
+//        System.out.println("");
+
+//        RequestBody body = RequestBody.create(mediaType, "{\r\n    \"project\": {\r\n        \"name\": \"" + name + "\",\r\n        \"key_name\": \"" + key_name + "\",\r\n        \"comercial_designation\": \"" + comercial_designation + "\"\r\n    },\r\n    \"date_init\": \"" + date_init + "\",\r\n    \"date_finish\": \"" + date_finish + "\"\r\n}");
+        RequestBody body = RequestBody.create(mediaType, "{\r\n    \"project\": {\r\n        \"name\": \"" + name + "\",\r\n        \"key_name\": \"" + key_name + "\",\r\n        \"comercial_designation\": \"" + comercial_designation + "\"\r\n    },\r\n    \"date_init\": \"" + date_init + "\",\r\n    \"date_finish\": \"" + date_finish + "\",\r\n    \"promotor_id\": " + promotor_id + "\r\n}");
+
         Request request = new Request.Builder()
                 .url("http://localhost:8080/projects")
                 .method("POST", body)
@@ -27,5 +34,7 @@ public class PostProjectProvider {
                 .build();
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
+
+        return response.isSuccessful();
     }
 }

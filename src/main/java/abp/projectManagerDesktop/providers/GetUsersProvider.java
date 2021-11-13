@@ -8,6 +8,7 @@ package abp.projectManagerDesktop.providers;
 import abp.projectManagerDesktop.constants.constantUtilities;
 import abp.projectManagerDesktop.providers.Models.UserModel;
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,8 +23,8 @@ import org.json.JSONObject;
 public class GetUsersProvider {
 
     public Map<String, ArrayList<UserModel>> getUsers() throws IOException {
-        
-         OkHttpClient client = new OkHttpClient().newBuilder()
+
+        OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
                 .url("http://localhost:8080/user")
@@ -33,7 +34,7 @@ public class GetUsersProvider {
                 .build();
         Response response = client.newCall(request).execute();
         return parse(response.body().string());
-        
+
 //        OkHttpClient client = new OkHttpClient().newBuilder()
 //                .build();
 //        Request request = new Request.Builder()
@@ -43,9 +44,7 @@ public class GetUsersProvider {
 //                .addHeader("Accept", "application/json")
 //                .build();
 //        Response response = client.newCall(request).execute();
-        
 //        System.out.println(response.body().string());
-        
 //        return parse(response.body().string());
 //        System.out.println();
     }
@@ -65,6 +64,7 @@ public class GetUsersProvider {
             userModel.setLastname(user.getString("lastname"));
             userModel.setNumber_phone(user.getString("number_phone"));
             userModel.setRole(user.getString("role"));
+            userModel.setHiring_date(user.getString("hiring_date"));
             userModel.setId(user.getLong("id"));
 
             if (user.getString("role").equals(constantUtilities.ROLE_EMPLEADO)) {
