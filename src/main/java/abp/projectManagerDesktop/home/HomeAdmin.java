@@ -28,8 +28,9 @@ import javax.swing.plaf.DimensionUIResource;
  *
  * @author juan barraza
  */
-public class Home {
+public class HomeAdmin {
 
+//    static GetProjectsAdminProvider getProjectsAdminProvider = new GetProjectsAdminProvider();
     static int width = Toolkit.getDefaultToolkit().getScreenSize().width;
     static int height = Toolkit.getDefaultToolkit().getScreenSize().height;
 
@@ -76,8 +77,7 @@ class VentanaHome extends JFrame implements MouseListener {
         panelP.setLayout(null);
         panelP.setBackground(Color.white);
 
-        initComponents();
-
+//        initComponents();
         panelP.updateUI();
         panelP.repaint();
     }

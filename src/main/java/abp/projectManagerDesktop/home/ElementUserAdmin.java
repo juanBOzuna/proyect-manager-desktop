@@ -31,8 +31,12 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
     JLabel picLabelEdit;
     JFrame padre;
     UserModel user;
+    DialogDeleteProject delete;
+    DialogRegisterUser edit;
 
     public ElementUserAdmin(int x, int y, int w, int h, UserModel user, JFrame padre) {
+        delete = new DialogDeleteProject(padre, false, user);
+        edit = new DialogRegisterUser(padre, false, false, true, user);
         this.user = user;
 
         this.padre = padre;
@@ -88,11 +92,23 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
         add(picLabelDelete);
     }
 
+    public DialogDeleteProject getDelete() {
+        return delete;
+    }
+
+    public DialogRegisterUser getEdit() {
+        return edit;
+    }
+
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == picLabelEdit) {
-            DialogRegisterUser edit = new DialogRegisterUser(padre, false, false, true, user);
-            edit.setVisible(true);
-        }
+//        if (e.getSource() == picLabelEdit) {
+////            edit = new DialogRegisterUser(padre, false, false, true, user);
+//            edit.setVisible(true);
+//        }
+//        if (e.getSource() == picLabelDelete) {
+////            DialogDeleteProject edit = new DialogDeleteProject(padre, false);
+//            delete.setVisible(true);
+//        }
     }
 
     public void mousePressed(MouseEvent e) {

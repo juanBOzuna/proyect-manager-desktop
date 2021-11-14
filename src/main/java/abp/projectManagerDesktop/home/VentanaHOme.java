@@ -6,13 +6,14 @@
 package abp.projectManagerDesktop.home;
 
 import abp.projectManagerDesktop.constants.constantUtilities;
-//import static abp.projectManagerDesktop.home.Home.getProjectsAdminProvider;
 import abp.projectManagerDesktop.providers.GetProjectsAdminProvider;
 import abp.projectManagerDesktop.providers.Models.*;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
+
 import static java.awt.Frame.HAND_CURSOR;
 import java.awt.event.*;
 import java.awt.font.TextAttribute;
@@ -28,7 +29,7 @@ import javax.swing.plaf.DimensionUIResource;
  *
  * @author juan barraza
  */
-public class Home {
+public class VentanaHOme {
 
     static int width = Toolkit.getDefaultToolkit().getScreenSize().width;
     static int height = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -76,8 +77,7 @@ class VentanaHome extends JFrame implements MouseListener {
         panelP.setLayout(null);
         panelP.setBackground(Color.white);
 
-        initComponents();
-
+//        initComponents();
         panelP.updateUI();
         panelP.repaint();
     }
