@@ -40,10 +40,6 @@ public class DialogDeleteUser extends JDialog implements MouseListener {
 
         super(padre, modo);
         this.user = user;
-//        val = promotors;
-//        this.user = user;
-//        this.edit = edit;
-
         w = 400;
         h = 200;
         y = 150;
@@ -120,18 +116,13 @@ public class DialogDeleteUser extends JDialog implements MouseListener {
             }
         } catch (IOException e) {
         }
-
-//        return deleteUserProvider.delete(user.getId());
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == buttonDelete) {
-
             deleteUser();
-
         }
-
     }
 
     @Override

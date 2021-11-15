@@ -41,9 +41,6 @@ public class DialogDeleteProject extends JDialog implements MouseListener {
 
         super(padre, modo);
         this.project = project;
-//        val = promotors;
-//        this.user = user;
-//        this.edit = edit;
 
         w = 400;
         h = 200;
@@ -122,26 +119,11 @@ public class DialogDeleteProject extends JDialog implements MouseListener {
         }
     }
 
-//    void deleteUser() {
-//        DeleteUserProvider deleteUserProvider = new DeleteUserProvider();
-//
-//        try {
-//            if (deleteUserProvider.delete(project.getId())) {
-//                this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-//            } else {
-//                this.dispose();
-//            }
-//        } catch (IOException e) {
-//        }
-//
-////        return deleteUserProvider.delete(user.getId());
-//    }
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == buttonDelete) {
             deleteProject();
         }
-
     }
 
     @Override
@@ -163,5 +145,4 @@ public class DialogDeleteProject extends JDialog implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
-
 }

@@ -78,7 +78,6 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
         picLabelEdit.setCursor(new Cursor(HAND_CURSOR));
         picLabelEdit.setBounds(xEye, (h / 2 - (wImage / 2)), wImage, wImage);
 
-//        int yEye = (y / 2) - ((w / 5) / 2);
         JPanel title = new JPanel();
         title.setLayout(new GridLayout(1, 1));
         title.setBounds(10, (h / 2) - (((h / 2) - 5) / 2), xEye - 20, (h / 2) - 5);
@@ -102,11 +101,9 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
 
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == picLabelEdit) {
-//            edit = new DialogRegisterUser(padre, false, false, true, user);
             edit.setVisible(true);
         }
         if (e.getSource() == picLabelDelete) {
-//            DialogDeleteProject edit = new DialogDeleteProject(padre, false);
             delete.setVisible(true);
         }
     }

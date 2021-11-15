@@ -79,6 +79,7 @@ public class DialogRegisterProject extends JDialog {
         try {
             if (edit) {
                 this.promotors = getPromotors.getPromotrs(true, projectRegister.getProject());
+                System.out.println(promotors);
             } else {
                 this.promotors = getPromotors.getPromotrs(false, null);
             }
@@ -110,18 +111,15 @@ public class DialogRegisterProject extends JDialog {
             for (UserModel promotor : promotors) {
                 id++;
                 promotorsComb.addItem(promotor.getId() + "-" + promotor.getName());
-//                promotorsComb.addItem(promotor.getName());
                 if (id == 1) {
                     promotorID = promotor.getId();
                 }
-                System.out.println("1) Promotor: =--------" + promotorID);
             }
         } catch (Exception e) {
         }
 
         promotorsComb.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent itemEvent) {
-
                 setPromotorId(promotors);
                 System.out.println("Promotor: =--------" + promotorID
                 );
@@ -154,12 +152,8 @@ public class DialogRegisterProject extends JDialog {
             formName.setText(projectRegister.getProject().getName());
             formComercial_designation.setText(projectRegister.getProject().getComercial_designation());
             formKey_name.setText(projectRegister.getProject().getKey_name());
-//            promotorID = projectRegister.getProject().getPromotor_id();
 
             for (int i = 0; i < promotors.size(); i++) {
-//                if (projectRegister.getPromotor().getName().equals(promotors.get(i).getName())) {
-//                    promotorsComb.setSelectedIndex(i);
-//                }
                 try {
                     if (projectRegister.getPromotor().getName().equals(promotors.get(i).getName())) {
                         promotorsComb.setSelectedIndex(i);
@@ -276,12 +270,15 @@ public class DialogRegisterProject extends JDialog {
         });
 
         if (edit) {
-            String dateOfProject = String.valueOf(projectRegister.getProject().getDate_finish());
-            String[] parts = dateOfProject.substring(0, 10).split("-");
-            comboFinishMonth.setSelectedIndex(Integer.parseInt(parts[1]) - 1);
-            int indexDay = Integer.parseInt(parts[2]) - 1;
-            comboFinishDay.setSelectedIndex(Integer.parseInt(parts[2]) - 1);
-            comboFinishYear.setSelectedIndex(Integer.parseInt(parts[0]) - year);
+            try {
+                String dateOfProject = String.valueOf(projectRegister.getProject().getDate_finish());
+                String[] parts = dateOfProject.substring(0, 10).split("-");
+                comboFinishMonth.setSelectedIndex(Integer.parseInt(parts[1]) - 1);
+                int indexDay = Integer.parseInt(parts[2]) - 1;
+                comboFinishDay.setSelectedIndex(Integer.parseInt(parts[2]) - 1);
+                comboFinishYear.setSelectedIndex(Integer.parseInt(parts[0]) - year);
+            } catch (Exception e) {
+            }
 
         }
         add(titleFinish);
@@ -374,10 +371,6 @@ public class DialogRegisterProject extends JDialog {
     }
 
     void comboPromotors(int x, int y, int w, int h) {
-//        JComboBox promotorsComb = new JComboBox();
-//        promotorsComb.setBounds(key_name.getX(), key_name.getY(), key_name.getWidth(), 30);
-//        add(promotorsComb);
-
     }
 
     void setPromotorId(ArrayList<UserModel> promotors) {
@@ -418,9 +411,6 @@ class Tfmfld extends JPanel {
             formPass.setText(titleGeneral);
             formPass.setToolTipText(titleGeneral);
             formPass.addFocusListener(focusAdapterForm2);
-//            formPass.setForeground(constantUtilities.primaryColor);
-//            formPass.setBackground(Colors);
-//            formPass.setBorder(BorderFactory.createLineBorder(colorForm));
             add(formPass);
         } else if (this.isNumeric) {
             HintTextListener focusAdapterForm2 = new HintTextListener(form, titleGeneral);
@@ -435,18 +425,12 @@ class Tfmfld extends JPanel {
                     }
                 }
             });
-//            form.setForeground(constantUtilities.primaryColor);
-//            form.setBackground(colorForm);
-//            form.setBorder(BorderFactory.createLineBorder(colorForm));
             add(form);
         } else {
             HintTextListener focusAdapterForm2 = new HintTextListener(form, titleGeneral);
             form.setText(titleGeneral);
             form.setToolTipText(titleGeneral);
             form.addFocusListener(focusAdapterForm2);
-//            form.setForeground(constantUtilities.primaryColor);
-//            form.setBackground(colorForm);
-//            form.setBorder(BorderFactory.createLineBorder(colorForm));
             add(form);
         }
 
@@ -546,7 +530,6 @@ class HintTextListener extends FocusAdapter {
     @Override
     public void focusGained(FocusEvent e) {
         if (form.getText().equals(titleGeneral)) {
-//            form.setForeground(constantUtilities.secundaryColorBlack);
             form.setText("");
         } else {
             form.setText(form.getText());
@@ -556,10 +539,8 @@ class HintTextListener extends FocusAdapter {
     @Override
     public void focusLost(FocusEvent e) {
         if (form.getText().equals(titleGeneral) || form.getText().length() == 0) {
-//            form.setForeground(constantUtilities.primaryColor);
             form.setText(titleGeneral);
         } else {
-//            form.setForeground(constantUtilities.secundaryColorBlack);
             form.setText(form.getText());
         }
     }

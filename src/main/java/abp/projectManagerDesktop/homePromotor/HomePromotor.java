@@ -13,8 +13,11 @@ import abp.projectManagerDesktop.home.DialogRegisterUser;
 import abp.projectManagerDesktop.home.ElementTaskAdmin;
 import abp.projectManagerDesktop.home.ProjectsModule;
 import abp.projectManagerDesktop.home.UsersModule;
+import abp.projectManagerDesktop.providers.Models.ProjectModel;
 //import abp.projectManagerDesktop.home.VentanaHome;
 import abp.projectManagerDesktop.providers.Models.ResponseGetProjectsAdminModel;
+import abp.projectManagerDesktop.providers.Models.UserModel;
+import abp.projectManagerDesktop.providers.FinalizeProjectProvider;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -55,8 +58,10 @@ public class HomePromotor {
 //    }
     static int width = Toolkit.getDefaultToolkit().getScreenSize().width;
     static int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+//    static ProjectModel project;
 
     public static void main(String[] args) throws IOException {
+
         VentanaHomePromotor v = new VentanaHomePromotor(width, height);
     }
 
@@ -87,6 +92,7 @@ class VentanaHomePromotor extends JFrame implements MouseListener {
     UsersOfMyProjectModel createUsersModule;
     ProjectsModule projectsMpdule;
     JPanel menuItemAux;
+    JPanel finishProjectButton;
 
     public VentanaHomePromotor(int widthScreenSize, int heightScreenSize) throws IOException {
         setLayout(null);
@@ -96,7 +102,7 @@ class VentanaHomePromotor extends JFrame implements MouseListener {
         setResizable(false);
 
         panelP = new JPanel();
-        panelP.setBounds(0, 0, getWidth(), getHeight());
+        panelP.setBounds(0, 0, (int) (widthScreenSize * .9), (int) (heightScreenSize * 0.9));
         panelP.setLayout(null);
         panelP.setBackground(Color.white);
 
@@ -145,7 +151,8 @@ class VentanaHomePromotor extends JFrame implements MouseListener {
         panelProject.setBackground(Color.white);
         panelProject.setBorder(BorderFactory.createLineBorder(Color.gray));
 
-        JLabel titleProjectAssign = new JLabel("Projecto Asignado: ");
+        JLabel titleProjectAssign = new JLabel();
+
         titleProjectAssign.setFont(new Font("Segoe UI Semibold", 0, 26));
         titleProjectAssign.setBounds(20, 30 - 18, widthPanel, 36);
         panelProject.add(titleProjectAssign);
@@ -157,14 +164,26 @@ class VentanaHomePromotor extends JFrame implements MouseListener {
         titleButonDelete.setVerticalAlignment(SwingConstants.CENTER);
         titleButonDelete.setForeground(Color.white);
 
-        JPanel finishProjectButton = new JPanel();
-        finishProjectButton.setBounds((int) (widthPanel * 0.051), panelProject.getY() + panelProject.getHeight() + 20, (int) (widthPanel * 0.195), 50);
+        finishProjectButton = new JPanel();
+        finishProjectButton.setBounds((int) (widthPanel * 0.051), (titlePanel.getHeight() + titlePanel.getY()) * 2 + 60 + 20, (int) (widthPanel * 0.195), 50);
         finishProjectButton.setBackground(new ColorUIResource(244, 67, 54));
         finishProjectButton.setCursor(new Cursor(HAND_CURSOR));
+        finishProjectButton.addMouseListener(this);
         finishProjectButton.setLayout(new GridLayout(1, 1));
         finishProjectButton.add(titleButonDelete);
-        contentHome.add(finishProjectButton);
 
+        try {
+            if (constantUtilities.nameProject != null) {
+                titleProjectAssign.setText("Projecto Asignado: " + constantUtilities.nameProject);
+                contentHome.add(finishProjectButton);
+            } else {
+                titleProjectAssign.setText("Projecto Asignado: Ninguno");
+            }
+
+        } catch (Exception e) {
+            titleProjectAssign.setText("Projecto Asignado: Ninguno");
+
+        }
         scrollContentHome.setViewportView(contentHome);
 //        scrollContentHome.add(panelHome);
 
@@ -238,7 +257,7 @@ class VentanaHomePromotor extends JFrame implements MouseListener {
         fill.setVerticalAlignment(SwingConstants.CENTER);
         fill.setForeground(Color.white);
         menuItemHome.add(fill);
-
+        //
         menuItemUsers = new JPanel();
         menuItemUsers.addMouseListener(this);
         menuItemUsers.setBackground(constantUtilities.primaryColorBlack);
@@ -251,132 +270,143 @@ class VentanaHomePromotor extends JFrame implements MouseListener {
         fill.setForeground(Color.white);
         menuItemUsers.add(fill);
 
-        if (constantUtilities.projectId != null) {
-            menuItemTasks = new JPanel();
-            menuItemTasks.addMouseListener(this);
-            menuItemTasks.setBackground(constantUtilities.primaryColorBlack);
-            menuItemTasks.setLayout(new GridLayout(1, 1));
-            menuItemTasks.setCursor(new Cursor(HAND_CURSOR));
-            fill = new JLabel("Tareas");
-            fill.setBorder(new EmptyBorder(0, 20, 0, 0));
-            fill.setHorizontalAlignment(SwingConstants.LEADING);
-            fill.setVerticalAlignment(SwingConstants.CENTER);
-            fill.setForeground(Color.white);
-            menuItemTasks.add(fill);
-        }
+        menuItemTasks = new JPanel();
+        menuItemTasks.addMouseListener(this);
+        menuItemTasks.setBackground(constantUtilities.primaryColorBlack);
+        menuItemTasks.setLayout(new GridLayout(1, 1));
+        menuItemTasks.setCursor(new Cursor(HAND_CURSOR));
+        fill = new JLabel("Tareas");
+        fill.setBorder(new EmptyBorder(0, 20, 0, 0));
+        fill.setHorizontalAlignment(SwingConstants.LEADING);
+        fill.setVerticalAlignment(SwingConstants.CENTER);
+        fill.setForeground(Color.white);
+        menuItemTasks.add(fill);
 
         drawerStatic.add(itemRolUser);
         drawerStatic.add(itemNavigation);
         drawerStatic.add(menuItemHome);
-        drawerStatic.add(menuItemUsers);
-        drawerStatic.add(menuItemTasks);
+
+        try {
+            if (constantUtilities.projectId != 0L) {
+                drawerStatic.add(menuItemUsers);
+                drawerStatic.add(menuItemTasks);
+
+            }
+        } catch (Exception e) {
+        }
 
         panelP.add(drawerStatic);
     }
 
     void createTasksModule() {
-        int topPanelHeight = header.getHeight();
-        int widthPanelDrawer = drawerStatic.getWidth();
-        int heightPanel = heightWindow - topPanelHeight;
-        int widthPanel = widthWindow - widthPanelDrawer;
+        try {
+            int topPanelHeight = header.getHeight();
+            int widthPanelDrawer = drawerStatic.getWidth();
+            int heightPanel = heightWindow - topPanelHeight;
+            int widthPanel = widthWindow - widthPanelDrawer;
 
-        contentHome.removeAll();
+            contentHome.removeAll();
 
-        panelP.updateUI();
-        panelP.repaint();
+            panelP.updateUI();
+            panelP.repaint();
 
-        createTasksModule = new TasksModule(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38, this);
-        scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38);
-        scrollContentHome.setViewportView(createTasksModule);
-        scrollContentHome.setBackground(Color.white);
-        scrollContentHome.updateUI();
-        scrollContentHome.repaint();
+            createTasksModule = new TasksModule(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38, this);
+            scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38);
+            scrollContentHome.setViewportView(createTasksModule);
+            scrollContentHome.setBackground(Color.white);
+            scrollContentHome.updateUI();
+            scrollContentHome.repaint();
 
-        createTasksModule.getDialogRegister().addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(WindowEvent winEvt) {
-                createTasksModule.removeAll();
-                createTasksModule = null;
-                createTasksModule();
+            createTasksModule.getDialogRegister().addWindowListener(new java.awt.event.WindowAdapter() {
+                public void windowClosing(WindowEvent winEvt) {
+                    createTasksModule.removeAll();
+                    createTasksModule = null;
+                    createTasksModule();
 //                    createUserModule.removeAll();
 //                    createUserModule = null;
 //                    createUserModule();
+                }
+            });
+
+            for (DialogDeleteTask object : createTasksModule.getDeletes()) {
+                object.addWindowListener(new java.awt.event.WindowAdapter() {
+                    public void windowClosing(WindowEvent winEvt) {
+                        createTasksModule.removeAll();
+                        createTasksModule = null;
+                        createTasksModule();
+//                    createUserModule.removeAll();
+//                    createUserModule = null;
+//                    createUserModule();
+                    }
+                });
             }
-        });
-
-        for (DialogDeleteTask object : createTasksModule.getDeletes()) {
-            object.addWindowListener(new java.awt.event.WindowAdapter() {
-                public void windowClosing(WindowEvent winEvt) {
-                    createTasksModule.removeAll();
-                    createTasksModule = null;
-                    createTasksModule();
+            for (DialogDeleteTask object : createTasksModule.getDeletes()) {
+                object.addWindowListener(new java.awt.event.WindowAdapter() {
+                    public void windowClosing(WindowEvent winEvt) {
+                        createTasksModule.removeAll();
+                        createTasksModule = null;
+                        createTasksModule();
 //                    createUserModule.removeAll();
 //                    createUserModule = null;
 //                    createUserModule();
-                }
-            });
-        }
-        for (DialogDeleteTask object : createTasksModule.getDeletes()) {
-            object.addWindowListener(new java.awt.event.WindowAdapter() {
-                public void windowClosing(WindowEvent winEvt) {
-                    createTasksModule.removeAll();
-                    createTasksModule = null;
-                    createTasksModule();
+                    }
+                });
+            }
+            for (DialogRegisterTask object : createTasksModule.getEdits()) {
+                object.addWindowListener(new java.awt.event.WindowAdapter() {
+                    public void windowClosing(WindowEvent winEvt) {
+                        createTasksModule.removeAll();
+                        createTasksModule = null;
+                        createTasksModule();
 //                    createUserModule.removeAll();
 //                    createUserModule = null;
 //                    createUserModule();
-                }
-            });
-        }
-        for (DialogRegisterTask object : createTasksModule.getEdits()) {
-            object.addWindowListener(new java.awt.event.WindowAdapter() {
-                public void windowClosing(WindowEvent winEvt) {
-                    createTasksModule.removeAll();
-                    createTasksModule = null;
-                    createTasksModule();
-//                    createUserModule.removeAll();
-//                    createUserModule = null;
-//                    createUserModule();
-                }
-            });
+                    }
+                });
+            }
+        } catch (Exception e) {
         }
     }
 
     void createUsersModule() {
-        int topPanelHeight = header.getHeight();
-        int widthPanelDrawer = drawerStatic.getWidth();
-        int heightPanel = heightWindow - topPanelHeight;
-        int widthPanel = widthWindow - widthPanelDrawer;
+        try {
+            int topPanelHeight = header.getHeight();
+            int widthPanelDrawer = drawerStatic.getWidth();
+            int heightPanel = heightWindow - topPanelHeight;
+            int widthPanel = widthWindow - widthPanelDrawer;
 
-        contentHome.removeAll();
+            contentHome.removeAll();
 
-        panelP.updateUI();
-        panelP.repaint();
+            panelP.updateUI();
+            panelP.repaint();
 
 //        try {
 //            createTasksModule.removeAll();
 //            createTasksModule =null;
 //        } catch (Exception e) {
 //        }
-        createUsersModule = new UsersOfMyProjectModel(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38, this);
-        scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38);
-        scrollContentHome.setViewportView(createUsersModule);
-        scrollContentHome.setBackground(Color.white);
-        scrollContentHome.updateUI();
-        scrollContentHome.repaint();
+            createUsersModule = new UsersOfMyProjectModel(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38, this);
+            scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38);
+            scrollContentHome.setViewportView(createUsersModule);
+            scrollContentHome.setBackground(Color.white);
+            scrollContentHome.updateUI();
+            scrollContentHome.repaint();
 
 //        DialogAddUsersToProject s = createUsersModule.getAdd();
 //         for (DialogDeleteTask object : createUsersModule.getAdd()()) {
-        createUsersModule.getAdd().addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(WindowEvent winEvt) {
-                createTasksModule.removeAll();
-                createTasksModule = null;
-                createUsersModule();
+            createUsersModule.getAdd().addWindowListener(new java.awt.event.WindowAdapter() {
+                public void windowClosing(WindowEvent winEvt) {
+                    createUsersModule.removeAll();
+                    createUsersModule = null;
+                    createUsersModule();
 //                    createUserModule.removeAll();
 //                    createUserModule = null;
 //                    createUserModule();
-            }
-        });
+                }
+            });
 //        }
+        } catch (Exception e) {
+        }
     }
 
     public void mouseClicked(MouseEvent evento) {
@@ -398,14 +428,25 @@ class VentanaHomePromotor extends JFrame implements MouseListener {
             scrollContentHome.repaint();
 
         }
-        if (constantUtilities.projectId != null) {
-            if (evento.getSource() == menuItemTasks) {
-                createTasksModule();
+        try {
+            if (constantUtilities.projectId != 0L) {
+                if (evento.getSource() == menuItemTasks) {
+                    createTasksModule();
+                }
             }
-        }
 
-        if (evento.getSource() == menuItemUsers) {
-            createUsersModule();
+            if (evento.getSource() == finishProjectButton) {
+                FinalizeProjectProvider finalize = new FinalizeProjectProvider();
+                if (finalize.finalize(constantUtilities.projectId)) {
+                    this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                }
+            }
+
+            if (evento.getSource() == menuItemUsers) {
+                createUsersModule();
+            }
+        } catch (Exception e) {
+
         }
 
     }

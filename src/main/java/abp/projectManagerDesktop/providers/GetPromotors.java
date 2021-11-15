@@ -51,12 +51,15 @@ public class GetPromotors {
 
         for (int i = 0; i < respJson.length(); i++) {
             JSONObject user = respJson.getJSONObject(i);
+            try {
 
-            UserModel userModel = new UserModel();
-            userModel.setName(user.getString("name"));
-            userModel.setId(user.getLong("id"));
+                UserModel userModel = new UserModel();
+                userModel.setName(user.getString("name"));
+                userModel.setId(user.getLong("id"));
 
-            promotors.add(userModel);
+                promotors.add(userModel);
+            } catch (Exception e) {
+            }
         }
 
         return promotors;

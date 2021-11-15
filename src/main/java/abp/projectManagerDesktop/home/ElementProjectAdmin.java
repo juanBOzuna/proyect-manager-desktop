@@ -35,7 +35,6 @@ public class ElementProjectAdmin extends JPanel implements MouseListener {
     JFrame padre;
     ResponseGetProjectsAdminModel projectModel;
     DialogDeleteProject dialogDelete;
-//    ArrayList<DialogRegisterProject> edits = new ArrayList<DialogRegisterProject>();
     DialogRegisterProject edit;
 
     public ElementProjectAdmin(int x, int y, int w, int h, JFrame padre, ResponseGetProjectsAdminModel projectModel) {
@@ -84,7 +83,6 @@ public class ElementProjectAdmin extends JPanel implements MouseListener {
         picLabelEdit.setCursor(new Cursor(HAND_CURSOR));
         picLabelEdit.setBounds(xEye, (h / 2 - (wImage / 2)), wImage, wImage);
 
-//        int yEye = (y / 2) - ((w / 5) / 2);
         JPanel title = new JPanel();
         title.setLayout(new GridLayout(1, 1));
         title.setBounds(10, (h / 2) - (((h / 2) - 5) / 2), xEye - 20, (h / 2) - 5);

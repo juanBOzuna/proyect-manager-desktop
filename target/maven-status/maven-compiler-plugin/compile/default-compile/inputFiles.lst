@@ -5,6 +5,8 @@ C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\mai
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\home\DialogDeleteUser.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\DeleteTaskProvider.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\GetTasksPromotorProvider.java
+C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\GetUsersByProjectId.java
+C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\homePromotor\ElementUsersPromotor.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\Models\ResponseGetProjectsAdminModel.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\home\DialogRegisterProject.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\homePromotor\UsersOfMyProjectModel.java
@@ -14,6 +16,7 @@ C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\mai
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\homePromotor\TasksModule.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\GetUsersOfEditTask.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\home\DialogRegisterUser.java
+C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\homeEmployee\HomeEMployee.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\home\ElementProjectAdmin.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\home\HomeAdmin.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\homePromotor\DialogRegisterTask.java
@@ -21,14 +24,17 @@ C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\mai
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\homePromotor\ElementTasksPromotor.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\homePromotor\HomePromotor.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\Models\UserModel.java
+C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\homeEmployee\ElementTaskEmployee.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\LoginProvider.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\homePromotor\DialogDeleteTask.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\Models\ProjectModel.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\PostTaskProvider.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\home\ElementUserAdmin.java
+C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\GetUsersWithoutProject.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\register\Register.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\home\UsersModule.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\login\Login.java
+C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\homePromotor\DialogAddUsersToProject.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\PostProjectProvider.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\constants\constantUtilities.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\GetPromotors.java
@@ -36,5 +42,6 @@ C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\mai
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\Models\TaskModel.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\Models\ResponseGetTaskModel.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\home\ProjectsModule.java
+C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\GetTasksOfEmployee.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\PostUserProvider.java
 C:\Users\juan barraza\Documents\NetBeansProjects\proyect-manager-desktop\src\main\java\abp\projectManagerDesktop\providers\DeleteProjectProvider.java

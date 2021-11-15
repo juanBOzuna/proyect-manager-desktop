@@ -20,7 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class LoginProvider {
-
+    
     public LoginResponseModel login(String email, String pass) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -34,19 +34,19 @@ public class LoginProvider {
 
         return parse(response.body().string());
     }
-
+    
     LoginResponseModel parse(String resp) {
         LoginResponseModel response = new LoginResponseModel();
         JSONObject respJson = new JSONObject(resp);
         JSONObject user;
         JSONObject project;
         UserModel userModel = new UserModel();
-
+        
         try {
             ProjectModel proyectAssign;
             project = respJson.getJSONObject("project");
             proyectAssign = new ProjectModel();
-
+            
             proyectAssign.setId(project.getLong("id"));
             try {
                 proyectAssign.setPromotor_id(project.getLong("promotorId"));
@@ -54,12 +54,12 @@ public class LoginProvider {
             }
             proyectAssign.setName(project.getString("name"));
             try {
-
+                
                 proyectAssign.setPercentageCompleted(project.getFloat("percentageCompleted"));
             } catch (Exception e) {
             }
             proyectAssign.setKey_name(project.getString("key_name"));
-
+            
             proyectAssign.setComercial_designation(project.getString("comercial_designation"));
             try {
                 proyectAssign.setDate_finish(project.getString("date_finish"));
@@ -69,10 +69,12 @@ public class LoginProvider {
                 proyectAssign.setDate_init(project.getString("date_init"));
             } catch (Exception e) {
             }
-
+            
+            response.setProject(proyectAssign);
+            
         } catch (Exception e) {
         }
-
+        
         String error = respJson.getString("errors");
         if (error.equals("null")) {
             user = respJson.getJSONObject("userEntity");
@@ -97,9 +99,9 @@ public class LoginProvider {
         } else {
             response.setUser(userModel);
         }
-
+        
         response.setError(error);
-
+        
         return response;
     }
 }

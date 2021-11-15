@@ -484,16 +484,13 @@ class VentanaHome extends JFrame implements MouseListener {
                 }
             });
         }
-
+//
         for (DialogDeleteProject object : projectsMpdule.getDeletes()) {
             object.addWindowListener(new java.awt.event.WindowAdapter() {
                 public void windowClosing(WindowEvent winEvt) {
                     projectsMpdule.removeAll();
                     projectsMpdule = null;
                     createProjectsModule();
-//                    createUserModule.removeAll();
-//                    createUserModule = null;
-//                    createUserModule();
                 }
             });
         }
@@ -524,7 +521,6 @@ class VentanaHome extends JFrame implements MouseListener {
 
         createUserModule.registerUserDialog.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(WindowEvent winEvt) {
-//                    JOptionPane.showMessageDialog(null, " haga click en el menu usuarios nuevamente para refrescar");
                 createUserModule.removeAll();
                 createUserModule = null;
                 createUserModule();
@@ -550,7 +546,6 @@ class VentanaHome extends JFrame implements MouseListener {
         }
         createUserModule.registerPromotorDialog.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(WindowEvent winEvt) {
-//                    JOptionPane.showMessageDialog(null, " haga click en el menu usuarios nuevamente para refrescar");
                 createUserModule.removeAll();
                 createUserModule = null;
                 createUserModule();

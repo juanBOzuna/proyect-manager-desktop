@@ -7,6 +7,7 @@ package abp.projectManagerDesktop.login;
 
 import abp.projectManagerDesktop.constants.constantUtilities;
 import abp.projectManagerDesktop.home.HomeAdmin;
+import abp.projectManagerDesktop.homeEmployee.HomeEMployee;
 import abp.projectManagerDesktop.homePromotor.HomePromotor;
 import abp.projectManagerDesktop.providers.LoginProvider;
 import abp.projectManagerDesktop.providers.Models.LoginResponseModel;
@@ -210,15 +211,36 @@ class VentanaLogin extends JFrame implements MouseListener {
                         try {
                             constantUtilities.projectId = loginResponse.getUser().getProjectId();
                         } catch (Exception e) {
+                            constantUtilities.projectId = 0L;
                         }
                         try {
                             constantUtilities.nameProject = loginResponse.getProject().getName();
                         } catch (Exception e) {
                         }
                         this.dispose();
+
                         HomePromotor.main(null);
+
                     } catch (IOException e) {
                     }
+                }
+
+                if (loginResponse.getUser().getRole().equals(constantUtilities.ROLE_EMPLEADO)) {
+
+                    constantUtilities.usuario = loginResponse.getUser();
+                    try {
+                        constantUtilities.projectId = loginResponse.getUser().getProjectId();
+                    } catch (Exception e) {
+                        constantUtilities.projectId = 0L;
+                    }
+                    try {
+                        constantUtilities.nameProject = loginResponse.getProject().getName();
+                    } catch (Exception e) {
+                    }
+                    this.dispose();
+
+                    HomeEMployee.main(null);
+
                 }
             } else {
                 button.setVisible(true);

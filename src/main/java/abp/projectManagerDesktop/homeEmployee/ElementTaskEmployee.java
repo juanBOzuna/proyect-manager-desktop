@@ -34,7 +34,7 @@ public class ElementTaskEmployee extends JPanel implements MouseListener {
     public ElementTaskEmployee(int x, int y, int w, int h, JFrame padre, TaskModel task) {
 
         this.padre = padre;
-        int wImage = (h / 2) - 5;
+        int wImage = (h / 2);
         setBounds(x, y, w, h);
         setBackground(Color.white);
         setLayout(null);
@@ -46,7 +46,7 @@ public class ElementTaskEmployee extends JPanel implements MouseListener {
         panelEye.setBackground(Color.black);
         panelEye.setBounds(xEye, (h / 2) - (wImage / 2), wImage, wImage);
 
-        Image imgDelete = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/remove.png").getImage();
+        Image imgDelete = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/checked.png").getImage();
         ImageIcon imgDelete2 = new ImageIcon(imgDelete.getScaledInstance(wImage, wImage, Image.SCALE_SMOOTH));
         picLabelDelete = new JLabel();
         picLabelDelete.setIcon(imgDelete2);
@@ -55,22 +55,22 @@ public class ElementTaskEmployee extends JPanel implements MouseListener {
         picLabelDelete.setBounds(xEye, (h / 2 - (wImage / 2)), wImage, wImage);
 
         xEye -= (wImage + 5);
-        Image img = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/eye.png").getImage();
-        ImageIcon img2 = new ImageIcon(img.getScaledInstance(wImage, wImage, Image.SCALE_SMOOTH));
-        picLabel = new JLabel();
-        picLabel.setIcon(img2);
-        picLabel.addMouseListener(this);
-        picLabel.setCursor(new Cursor(HAND_CURSOR));
-        picLabel.setBounds(xEye, (h / 2 - (wImage / 2)), wImage, wImage);
-
-        xEye -= (wImage + 5);
-        Image imgEdit = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/edit.png").getImage();
-        ImageIcon imgEdit2 = new ImageIcon(imgEdit.getScaledInstance(wImage, wImage, Image.SCALE_SMOOTH));
-        picLabelEdit = new JLabel();
-        picLabelEdit.setIcon(imgEdit2);
-        picLabelEdit.addMouseListener(this);
-        picLabelEdit.setCursor(new Cursor(HAND_CURSOR));
-        picLabelEdit.setBounds(xEye, (h / 2 - (wImage / 2)), wImage, wImage);
+//        Image img = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/eye.png").getImage();
+//        ImageIcon img2 = new ImageIcon(img.getScaledInstance(wImage, wImage, Image.SCALE_SMOOTH));
+//        picLabel = new JLabel();
+//        picLabel.setIcon(img2);
+//        picLabel.addMouseListener(this);
+//        picLabel.setCursor(new Cursor(HAND_CURSOR));
+//        picLabel.setBounds(xEye, (h / 2 - (wImage / 2)), wImage, wImage);
+//
+//        xEye -= (wImage + 5);
+//        Image imgEdit = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/edit.png").getImage();
+//        ImageIcon imgEdit2 = new ImageIcon(imgEdit.getScaledInstance(wImage, wImage, Image.SCALE_SMOOTH));
+//        picLabelEdit = new JLabel();
+//        picLabelEdit.setIcon(imgEdit2);
+//        picLabelEdit.addMouseListener(this);
+//        picLabelEdit.setCursor(new Cursor(HAND_CURSOR));
+//        picLabelEdit.setBounds(xEye, (h / 2 - (wImage / 2)), wImage, wImage);
 
 //        int yEye = (y / 2) - ((w / 5) / 2);
         JPanel title = new JPanel();
@@ -83,8 +83,8 @@ public class ElementTaskEmployee extends JPanel implements MouseListener {
         title.add(titleText);
 
         add(title);
-        add(picLabel);
-        add(picLabelEdit);
+//        add(picLabel);
+//        add(picLabelEdit);
         add(picLabelDelete);
 
     }

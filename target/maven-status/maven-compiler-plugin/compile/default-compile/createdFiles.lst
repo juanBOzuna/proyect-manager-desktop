@@ -1,3 +1,4 @@
+abp\projectManagerDesktop\homeEmployee\ElementTaskEmployee.class
 abp\projectManagerDesktop\login\Tfmfld.class
 abp\projectManagerDesktop\providers\PostTaskProvider.class
 abp\projectManagerDesktop\providers\Models\ProjectModel.class
@@ -10,9 +11,9 @@ abp\projectManagerDesktop\home\DialogRegisterProject$8.class
 abp\projectManagerDesktop\home\DialogRegisterProject$4.class
 abp\projectManagerDesktop\home\ProjectsModule.class
 abp\projectManagerDesktop\home\Tfmfld.class
+abp\projectManagerDesktop\homeEmployee\HomeEMployee.class
 abp\projectManagerDesktop\home\DialogDeleteProject.class
 abp\projectManagerDesktop\home\DialogRegisterUser$5.class
-abp\projectManagerDesktop\homePromotor\VentanaHomePromotor$2.class
 abp\projectManagerDesktop\providers\GetPromotors.class
 abp\projectManagerDesktop\homePromotor\DialogRegisterTask.class
 abp\projectManagerDesktop\home\DialogRegisterProject$1.class
@@ -29,11 +30,13 @@ abp\projectManagerDesktop\providers\GetUsersProvider.class
 abp\projectManagerDesktop\home\DialogRegisterProject$5.class
 abp\projectManagerDesktop\home\ElementTaskAdmin.class
 abp\projectManagerDesktop\home\Tfmfld$1.class
+abp\projectManagerDesktop\providers\GetUsersWithoutProject.class
 abp\projectManagerDesktop\homePromotor\HomePromotor.class
 abp\projectManagerDesktop\login\VentanaLogin.class
 abp\projectManagerDesktop\home\VentanaHome$2.class
 abp\projectManagerDesktop\providers\Models\DocumentModel.class
 abp\projectManagerDesktop\home\VentanaHome.class
+abp\projectManagerDesktop\homePromotor\DialogAddUsersToProject.class
 abp\projectManagerDesktop\homePromotor\VentanaHomePromotor.class
 abp\projectManagerDesktop\home\DialogRegisterUser$4.class
 abp\projectManagerDesktop\providers\Models\ResponseGetTaskModel.class
@@ -43,6 +46,7 @@ abp\projectManagerDesktop\providers\PostProjectProvider.class
 abp\projectManagerDesktop\home\HintTextListener.class
 abp\projectManagerDesktop\home\VentanaHome$5.class
 abp\projectManagerDesktop\register\Tfmfld.class
+abp\projectManagerDesktop\providers\GetTasksOfEmployee.class
 abp\projectManagerDesktop\homePromotor\DialogRegisterTask$1.class
 abp\projectManagerDesktop\providers\LoginProvider.class
 abp\projectManagerDesktop\register\HintTextListener.class
@@ -50,7 +54,6 @@ abp\projectManagerDesktop\home\DialogRegisterUser$3.class
 abp\projectManagerDesktop\homePromotor\ElementTasksPromotor.class
 abp\projectManagerDesktop\providers\PostUserProvider.class
 abp\projectManagerDesktop\providers\GetUsersWithoutTask.class
-abp\projectManagerDesktop\homePromotor\VentanaHomePromotor$3.class
 abp\projectManagerDesktop\home\HintTextListenerUser.class
 abp\projectManagerDesktop\home\UsersModule.class
 abp\projectManagerDesktop\login\Login.class
@@ -63,11 +66,13 @@ abp\projectManagerDesktop\providers\Models\TaskModel.class
 abp\projectManagerDesktop\home\DialogRegisterUser$2.class
 abp\projectManagerDesktop\homePromotor\DialogRegisterTask$2.class
 abp\projectManagerDesktop\home\HomeAdmin.class
-abp\projectManagerDesktop\homePromotor\VentanaHomePromotor$4.class
 abp\projectManagerDesktop\login\HintTextListener.class
 abp\projectManagerDesktop\home\TfmfldUser.class
 abp\projectManagerDesktop\home\VentanaHome$4.class
+abp\projectManagerDesktop\homeEmployee\WindowEmployee.class
+abp\projectManagerDesktop\homePromotor\DialogAddUsersToProject$1.class
 abp\projectManagerDesktop\providers\GetProjectsAdminProvider.class
+abp\projectManagerDesktop\homePromotor\ElementUsersPromotor.class
 abp\projectManagerDesktop\providers\DeleteUserProvider.class
 abp\projectManagerDesktop\providers\Models\ResponseGetProjectsAdminModel.class
 abp\projectManagerDesktop\register\Tfmfld$1.class
@@ -79,5 +84,5 @@ abp\projectManagerDesktop\home\DialogDeleteUser.class
 abp\projectManagerDesktop\home\DialogRegisterProject$7.class
 abp\projectManagerDesktop\register\VentanaRegister.class
 abp\projectManagerDesktop\home\DialogRegisterUser.class
-abp\projectManagerDesktop\homePromotor\VentanaHomePromotor$1.class
 abp\projectManagerDesktop\home\ElementProjectAdmin.class
+abp\projectManagerDesktop\providers\GetUsersByProjectId.class

@@ -84,7 +84,7 @@ public class DialogAddUsersToProject extends JDialog {
     void sendUserToProvider() {
         PostUserProvider post = new PostUserProvider();
         if (String.valueOf(users.getSelectedItem()).equals("ninguno")) {
-
+            this.dispose();
         } else {
             UserModel userSelected = new UserModel();
             for (UserModel userModel : usersList) {

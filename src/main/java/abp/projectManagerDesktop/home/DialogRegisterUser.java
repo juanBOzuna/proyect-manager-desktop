@@ -237,14 +237,12 @@ public class DialogRegisterUser extends JDialog {
             public void itemStateChanged(ItemEvent itemEvent) {
 
                 dayHiring = String.valueOf(comboHiringDay.getSelectedItem());
-//                dayHiring = String.valueOf(Integer.parseInt(String.valueOf(comboHiringDay.getSelectedItem())));
+//               
             }
         });
 
         comboHiringYear.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent itemEvent) {
-
-//                yearHiring = String.valueOf(comboHiringYear.getSelectedItem());
                 yearHiring = String.valueOf(Integer.parseInt(String.valueOf(comboHiringYear.getSelectedItem())));;
             }
         });
@@ -304,7 +302,6 @@ public class DialogRegisterUser extends JDialog {
                     );
 
                 }
-//            String address, String dni, String email, String lastName, String name, String number_phone, String role
 
                 if (call) {
                     this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
@@ -332,7 +329,6 @@ class TfmfldUser extends JPanel {
         this.pass = pass;
         this.isNumeric = isNumeric;
         this.email = email;
-//        ColorUIResource colorForm = new ColorUIResource(255, 255, 255);
         titleGeneral = title;
         this.setBounds(boundX, boundY, width, height);
         this.setBackground(Color.white);
@@ -343,9 +339,6 @@ class TfmfldUser extends JPanel {
             formPass.setText(titleGeneral);
             formPass.setToolTipText(titleGeneral);
             formPass.addFocusListener(focusAdapterForm2);
-//            formPass.setForeground(constantUtilities.primaryColor);
-//            formPass.setBackground(Colors);
-//            formPass.setBorder(BorderFactory.createLineBorder(colorForm));
             add(formPass);
         } else if (this.isNumeric) {
             HintTextListener focusAdapterForm2 = new HintTextListener(form, titleGeneral);
@@ -360,18 +353,12 @@ class TfmfldUser extends JPanel {
                     }
                 }
             });
-//            form.setForeground(constantUtilities.primaryColor);
-//            form.setBackground(colorForm);
-//            form.setBorder(BorderFactory.createLineBorder(colorForm));
             add(form);
         } else {
             HintTextListenerUser focusAdapterForm2 = new HintTextListenerUser(form, titleGeneral);
             form.setText(titleGeneral);
             form.setToolTipText(titleGeneral);
             form.addFocusListener(focusAdapterForm2);
-//            form.setForeground(constantUtilities.primaryColor);
-//            form.setBackground(colorForm);
-//            form.setBorder(BorderFactory.createLineBorder(colorForm));
             add(form);
         }
 
@@ -471,7 +458,6 @@ class HintTextListenerUser extends FocusAdapter {
     @Override
     public void focusGained(FocusEvent e) {
         if (form.getText().equals(titleGeneral)) {
-//            form.setForeground(constantUtilities.secundaryColorBlack);
             form.setText("");
         } else {
             form.setText(form.getText());
@@ -481,10 +467,8 @@ class HintTextListenerUser extends FocusAdapter {
     @Override
     public void focusLost(FocusEvent e) {
         if (form.getText().equals(titleGeneral) || form.getText().length() == 0) {
-//            form.setForeground(constantUtilities.primaryColor);
             form.setText(titleGeneral);
         } else {
-//            form.setForeground(constantUtilities.secundaryColorBlack);
             form.setText(form.getText());
         }
     }
