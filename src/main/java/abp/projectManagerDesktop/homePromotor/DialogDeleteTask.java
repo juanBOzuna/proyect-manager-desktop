@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package abp.projectManagerDesktop.home;
+package abp.projectManagerDesktop.homePromotor;
 
-import abp.projectManagerDesktop.providers.DeleteProjectProvider;
-import abp.projectManagerDesktop.providers.DeleteUserProvider;
+import abp.projectManagerDesktop.providers.DeleteTaskProvider;
 import abp.projectManagerDesktop.providers.Models.ProjectModel;
-import abp.projectManagerDesktop.providers.Models.UserModel;
+import abp.projectManagerDesktop.providers.Models.TaskModel;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -29,18 +28,20 @@ import javax.swing.plaf.ColorUIResource;
  *
  * @author juan barraza
  */
-public class DialogDeleteProject extends JDialog implements MouseListener {
+public class DialogDeleteTask extends JDialog implements MouseListener {
 
     int w, h, y, x;
     JPanel buttonDelete;
     JPanel buttonCancel;
     JPanel panelP = new JPanel();
-    ProjectModel project;
+//    ProjectModel project;
+    TaskModel task;
 
-    public DialogDeleteProject(JFrame padre, Boolean modo, ProjectModel project) {
+    public DialogDeleteTask(JFrame padre, Boolean modo, TaskModel task) {
 
         super(padre, modo);
-        this.project = project;
+        this.task = task;
+//        this.project = project;
 //        val = promotors;
 //        this.user = user;
 //        this.edit = edit;
@@ -56,14 +57,15 @@ public class DialogDeleteProject extends JDialog implements MouseListener {
         panelP.setLayout(null);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle("Eliminar el proyecto " + project.getName());
+        setTitle("Eliminar el proyecto ");
         setLayout(null);
         initComponents();
     }
 
+
     void initComponents() {
         setBackground(Color.WHITE);
-        String titleText = "Borrar  \n " + project.getName() + "?";
+        String titleText = "Borrar  \n ?";
         JLabel title = new JLabel();
         title.setText(titleText);
         title.setFont(new Font("Segoe UI", 0, 20));
@@ -110,36 +112,28 @@ public class DialogDeleteProject extends JDialog implements MouseListener {
         return (int) ((h - 40) * number);
     }
 
-    void deleteProject() {
-        DeleteProjectProvider deleteService = new DeleteProjectProvider();
+    void deleteThisTask() {
+//        task
+        DeleteTaskProvider deleteProvider = new DeleteTaskProvider();
         try {
-            if (deleteService.delete(project.getId())) {
+            if (deleteProvider.delete(task.getId())) {
                 this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
             } else {
                 this.dispose();
             }
+
         } catch (IOException e) {
         }
     }
 
-//    void deleteUser() {
-//        DeleteUserProvider deleteUserProvider = new DeleteUserProvider();
-//
-//        try {
-//            if (deleteUserProvider.delete(project.getId())) {
-//                this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-//            } else {
-//                this.dispose();
-//            }
-//        } catch (IOException e) {
-//        }
-//
-////        return deleteUserProvider.delete(user.getId());
-//    }
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == buttonDelete) {
-            deleteProject();
+            deleteThisTask();
+        }
+
+        if (e.getSource() == buttonCancel) {
+            this.dispose();
         }
 
     }
@@ -163,5 +157,4 @@ public class DialogDeleteProject extends JDialog implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
-
 }

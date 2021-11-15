@@ -6,7 +6,9 @@
 package abp.projectManagerDesktop.home;
 
 import abp.projectManagerDesktop.constants.constantUtilities;
-import abp.projectManagerDesktop.providers.Models.UserModel;
+import abp.projectManagerDesktop.providers.DeleteProjectProvider;
+import abp.projectManagerDesktop.providers.Models.ProjectModel;
+import abp.projectManagerDesktop.providers.Models.ResponseGetProjectsAdminModel;
 import java.awt.Color;
 import java.awt.Cursor;
 import static java.awt.Frame.HAND_CURSOR;
@@ -14,40 +16,44 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
  *
  * @author juan barraza
  */
-public class ElementUserAdmin extends JPanel implements MouseListener {
+public class ElementProjectAdmin extends JPanel implements MouseListener {
 
     JLabel picLabel;
     JLabel picLabelDelete;
     JLabel picLabelEdit;
+    int w, h;
     JFrame padre;
-    UserModel user;
-    DialogDeleteUser delete;
-    DialogRegisterUser edit;
+    ResponseGetProjectsAdminModel projectModel;
+    DialogDeleteProject dialogDelete;
+//    ArrayList<DialogRegisterProject> edits = new ArrayList<DialogRegisterProject>();
+    DialogRegisterProject edit;
 
-    public ElementUserAdmin(int x, int y, int w, int h, UserModel user, JFrame padre) {
-        delete = new DialogDeleteUser(padre, false, user);
-        edit = new DialogRegisterUser(padre, false, false, true, user);
-        this.user = user;
+    public ElementProjectAdmin(int x, int y, int w, int h, JFrame padre, ResponseGetProjectsAdminModel projectModel) {
 
         this.padre = padre;
-        int wImage = (h / 2) - 5;
+        this.w = w;
+        this.h = h;
+        this.projectModel = projectModel;
+        edit = new DialogRegisterProject(padre, false, true, projectModel);
+
+        dialogDelete = new DialogDeleteProject(padre, false, projectModel.getProject());
         setBounds(x, y, w, h);
         setBackground(constantUtilities.colorItemTask);
         setLayout(null);
 
-        int xEye = w - (w / 8);
+        int xEye = w - (w / 13);
         int yEye = (y / 2) - ((w / 5) / 2);
-
+        int wImage = (h / 2) - 5;
         JPanel panelEye = new JPanel();
         panelEye.setBackground(Color.black);
         panelEye.setBounds(xEye, (h / 2) - (wImage / 2), wImage, wImage);
@@ -83,7 +89,7 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
         title.setLayout(new GridLayout(1, 1));
         title.setBounds(10, (h / 2) - (((h / 2) - 5) / 2), xEye - 20, (h / 2) - 5);
 
-        JLabel titleText = new JLabel(user.getName());
+        JLabel titleText = new JLabel(projectModel.getProject().getKey_name() + " | " + projectModel.getProject().getName());
         title.add(titleText);
 
         add(title);
@@ -92,23 +98,32 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
         add(picLabelDelete);
     }
 
-    public DialogDeleteUser getDelete() {
-        return delete;
+    int swfp(double number) {
+        return (int) ((w - 20) * number);
     }
 
-    public DialogRegisterUser getEdit() {
+    int shfp(double number) {
+        return (int) (h * number);
+    }
+
+    public DialogDeleteProject getDialogDelete() {
+        return dialogDelete;
+    }
+//    
+
+    public DialogRegisterProject getEdit() {
         return edit;
     }
 
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == picLabelEdit) {
-//            edit = new DialogRegisterUser(padre, false, false, true, user);
             edit.setVisible(true);
         }
+//
         if (e.getSource() == picLabelDelete) {
-//            DialogDeleteProject edit = new DialogDeleteProject(padre, false);
-            delete.setVisible(true);
+            dialogDelete.setVisible(true);
         }
+
     }
 
     public void mousePressed(MouseEvent e) {

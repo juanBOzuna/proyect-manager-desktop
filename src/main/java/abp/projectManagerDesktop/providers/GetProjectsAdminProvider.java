@@ -20,6 +20,8 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.io.*;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import okhttp3.*;
 
 /**
@@ -30,7 +32,7 @@ public class GetProjectsAdminProvider {
 
     private static String bodyResp = "";
 
-    public ArrayList<ResponseGetProjectsAdminModel> getModules() throws IOException {
+    public ArrayList<ResponseGetProjectsAdminModel> getProjects() throws IOException {
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -55,6 +57,7 @@ public class GetProjectsAdminProvider {
         JSONArray documents;
         JSONObject document;
         JSONObject employeeAssign;
+        JSONObject promotor;
 
         //respuestaModel
         ArrayList<ResponseGetProjectsAdminModel> listProjectsResponse = new ArrayList<ResponseGetProjectsAdminModel>();
@@ -68,6 +71,7 @@ public class GetProjectsAdminProvider {
         ArrayList<DocumentModel> documentsOfTask = new ArrayList<DocumentModel>();
         ResponseGetTaskModel taskResponseModel = null;
         UserModel userModel = new UserModel();
+        UserModel promotorModel = new UserModel();
 
         if (!response.isEmpty()) {
             for (int i = 0; i < response.length(); i++) {
@@ -76,6 +80,14 @@ public class GetProjectsAdminProvider {
                 project = response.getJSONObject(i).getJSONObject("project");
                 //get task in response
                 tasks = response.getJSONObject(i).getJSONArray("tasks");
+
+                try {
+                    promotor = response.getJSONObject(i).getJSONObject("promotor");
+//                    promotorModel.setName(resp);
+                    promotorModel.setName(promotor.getString("name"));
+                    promotorModel.setId(promotor.getLong("id"));
+                } catch (Exception e) {
+                }
 
                 //construct project model
                 projectModel = new ProjectModel();
@@ -86,6 +98,17 @@ public class GetProjectsAdminProvider {
                 }
                 projectModel.setName(project.getString("name"));
                 projectModel.setPercentageCompleted(response.getJSONObject(i).getFloat("percentageCompleted"));
+                projectModel.setKey_name(project.getString("key_name"));
+
+                projectModel.setComercial_designation(project.getString("comercial_designation"));
+                try {
+                    projectModel.setDate_finish(project.getString("date_finish"));
+                } catch (Exception e) {
+                }
+                try {
+                    projectModel.setDate_init(project.getString("date_init"));
+                } catch (Exception e) {
+                }
 
                 for (int j = 0; j < tasks.length(); j++) {
                     //construct task model
@@ -130,6 +153,7 @@ public class GetProjectsAdminProvider {
 
                 //add project on response http get model
                 responseGetProjectsModel.setProject(projectModel);
+                responseGetProjectsModel.setPromotor(promotorModel);
 
                 //add responseModel to listResponseModel
                 listProjectsResponse.add(responseGetProjectsModel);

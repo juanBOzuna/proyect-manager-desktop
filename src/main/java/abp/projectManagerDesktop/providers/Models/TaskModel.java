@@ -15,6 +15,8 @@ public class TaskModel {
     private String name;
     private long projectId;
     private boolean is_completed = false;
+    private boolean hasEmployee = false;
+//    private Boolean
 
     public Long getId() {
         return id;
@@ -22,6 +24,14 @@ public class TaskModel {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean getHasEmployee() {
+        return hasEmployee;
+    }
+
+    public void setHasEmployee(boolean hasEmployee) {
+        this.hasEmployee = hasEmployee;
     }
 
     public String getName() {

@@ -5,9 +5,7 @@
  */
 package abp.projectManagerDesktop.home;
 
-import abp.projectManagerDesktop.providers.DeleteProjectProvider;
 import abp.projectManagerDesktop.providers.DeleteUserProvider;
-import abp.projectManagerDesktop.providers.Models.ProjectModel;
 import abp.projectManagerDesktop.providers.Models.UserModel;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -18,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,18 +28,18 @@ import javax.swing.plaf.ColorUIResource;
  *
  * @author juan barraza
  */
-public class DialogDeleteProject extends JDialog implements MouseListener {
+public class DialogDeleteUser extends JDialog implements MouseListener {
 
     int w, h, y, x;
     JPanel buttonDelete;
     JPanel buttonCancel;
     JPanel panelP = new JPanel();
-    ProjectModel project;
+    UserModel user;
 
-    public DialogDeleteProject(JFrame padre, Boolean modo, ProjectModel project) {
+    public DialogDeleteUser(JFrame padre, Boolean modo, UserModel user) {
 
         super(padre, modo);
-        this.project = project;
+        this.user = user;
 //        val = promotors;
 //        this.user = user;
 //        this.edit = edit;
@@ -56,14 +55,14 @@ public class DialogDeleteProject extends JDialog implements MouseListener {
         panelP.setLayout(null);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle("Eliminar el proyecto " + project.getName());
+        setTitle("Eliminar a " + user.getName() + user.getLastname());
         setLayout(null);
         initComponents();
     }
 
     void initComponents() {
         setBackground(Color.WHITE);
-        String titleText = "Borrar  \n " + project.getName() + "?";
+        String titleText = "Borrar a \n juan?";
         JLabel title = new JLabel();
         title.setText(titleText);
         title.setFont(new Font("Segoe UI", 0, 20));
@@ -110,36 +109,27 @@ public class DialogDeleteProject extends JDialog implements MouseListener {
         return (int) ((h - 40) * number);
     }
 
-    void deleteProject() {
-        DeleteProjectProvider deleteService = new DeleteProjectProvider();
+    void deleteUser() {
+        DeleteUserProvider deleteUserProvider = new DeleteUserProvider();
+
         try {
-            if (deleteService.delete(project.getId())) {
+            if (deleteUserProvider.delete(user.getId())) {
                 this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
             } else {
                 this.dispose();
             }
         } catch (IOException e) {
         }
+
+//        return deleteUserProvider.delete(user.getId());
     }
 
-//    void deleteUser() {
-//        DeleteUserProvider deleteUserProvider = new DeleteUserProvider();
-//
-//        try {
-//            if (deleteUserProvider.delete(project.getId())) {
-//                this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-//            } else {
-//                this.dispose();
-//            }
-//        } catch (IOException e) {
-//        }
-//
-////        return deleteUserProvider.delete(user.getId());
-//    }
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == buttonDelete) {
-            deleteProject();
+
+            deleteUser();
+
         }
 
     }

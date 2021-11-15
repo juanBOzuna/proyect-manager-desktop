@@ -64,8 +64,14 @@ public class GetUsersProvider {
             userModel.setLastname(user.getString("lastname"));
             userModel.setNumber_phone(user.getString("number_phone"));
             userModel.setRole(user.getString("role"));
-            userModel.setHiring_date(user.getString("hiring_date"));
+
+            try {
+                userModel.setHiring_date(user.getString("hiring_date"));
+            } catch (Exception e) {
+            }
+
             userModel.setId(user.getLong("id"));
+            userModel.setPassword(user.getString("password"));
 
             if (user.getString("role").equals(constantUtilities.ROLE_EMPLEADO)) {
                 employees.add(userModel);

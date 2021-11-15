@@ -6,12 +6,17 @@
 package abp.projectManagerDesktop.login;
 
 import abp.projectManagerDesktop.constants.constantUtilities;
+import abp.projectManagerDesktop.home.HomeAdmin;
+import abp.projectManagerDesktop.homePromotor.HomePromotor;
+import abp.projectManagerDesktop.providers.LoginProvider;
+import abp.projectManagerDesktop.providers.Models.LoginResponseModel;
 import abp.projectManagerDesktop.providers.UserPreferences;
 import abp.projectManagerDesktop.register.Register;
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 //import abp.projectManagerDesktop.home.Home;
 
 /**
@@ -22,7 +27,7 @@ public class Login {
 
     static int width = Toolkit.getDefaultToolkit().getScreenSize().width;
     static int height = Toolkit.getDefaultToolkit().getScreenSize().height;
-    static UserPreferences prefs = new UserPreferences();
+//    static UserPreferences prefs = new UserPreferences();
 
     public static void main(String[] args) {
         VentanaLogin v = new VentanaLogin(width, height);
@@ -165,20 +170,13 @@ class VentanaLogin extends JFrame implements MouseListener {
             } else if (inputPassword.getPass().equals(inputPassword.getTitleGeneral())) {
                 JOptionPane.showMessageDialog(null, "La contraseña es obligatorio");
             } else {
-                if (evento.getSource() == button) {
-                    if (inputEmail.validateForm() && inputPassword.validateForm()) {
-                        button.setVisible(false);
-                        picLabelLoading.setVisible(true);
+                if (inputEmail.validateForm() && inputPassword.validateForm()) {
 
-//                        prefs.putInt("token", width);
-                        panelP.updateUI();
-                        panelP.repaint();
-//                        this.dispose();
-//                        Home.main(null);
-                    } else {
-                        String msg = "El correo debe tener un arroba y hasta 2 puntos \nla contraseña debe tener 8 caracteres";
-                        JOptionPane.showMessageDialog(null, msg);
-                    }
+                    login();
+
+                } else {
+                    String msg = "El correo debe tener un arroba y hasta 2 puntos \nla contraseña debe tener 8 caracteres";
+                    JOptionPane.showMessageDialog(null, msg);
                 }
             }
         }
@@ -187,6 +185,53 @@ class VentanaLogin extends JFrame implements MouseListener {
             Register.main(null);
             this.dispose();
         }
+    }
+
+    void login() {
+        try {
+
+            LoginProvider loginU = new LoginProvider();
+            LoginResponseModel loginResponse = loginU.login(inputEmail.GetFormValue(), inputPassword.GetFormValue());
+            if (loginResponse.getError().equals("null")) {
+//                JOptionPane.showMessageDialog(null, "USuario: " + loginResponse.getUser().getName());
+
+                if (!constantUtilities.ROLE_EMPLEADO.equals(loginResponse.getUser().getRole()) && !constantUtilities.ROLE_PROMOTOR.equals(loginResponse.getUser().getRole())) {
+                    try {
+                        constantUtilities.usuario = loginResponse.getUser();
+                        this.dispose();
+                        HomeAdmin.main(null);
+                    } catch (IOException e) {
+                    }
+                }
+
+                if (loginResponse.getUser().getRole().equals(constantUtilities.ROLE_PROMOTOR)) {
+                    try {
+                        constantUtilities.usuario = loginResponse.getUser();
+                        try {
+                            constantUtilities.projectId = loginResponse.getUser().getProjectId();
+                        } catch (Exception e) {
+                        }
+                        try {
+                            constantUtilities.nameProject = loginResponse.getProject().getName();
+                        } catch (Exception e) {
+                        }
+                        this.dispose();
+                        HomePromotor.main(null);
+                    } catch (IOException e) {
+                    }
+                }
+            } else {
+                button.setVisible(true);
+                picLabelLoading.setVisible(false);
+                panelP.updateUI();
+                panelP.repaint();
+                String error = "ERROR\n";
+                error += loginResponse.getError();
+                JOptionPane.showMessageDialog(null, error);
+            }
+        } catch (Exception e) {
+        }
+
     }
 
     public void mousePressed(MouseEvent e) {

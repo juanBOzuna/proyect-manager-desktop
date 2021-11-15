@@ -5,6 +5,7 @@
  */
 package abp.projectManagerDesktop.constants;
 
+import abp.projectManagerDesktop.providers.Models.UserModel;
 import java.awt.Color;
 import java.util.prefs.Preferences;
 import javax.swing.plaf.ColorUIResource;
@@ -15,6 +16,9 @@ import javax.swing.plaf.ColorUIResource;
  */
 public class constantUtilities {
 
+    static public UserModel usuario;
+    static public Long projectId;
+    static public String nameProject;
     final static public String ROLE_EMPLEADO = "empleado";
     final static public String ROLE_PROMOTOR = "promotor";
     final static public ColorUIResource primaryColor = new ColorUIResource(31, 124, 197);

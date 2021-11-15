@@ -30,6 +30,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -40,13 +41,14 @@ import javax.swing.JTextField;
  */
 public class DialogRegisterUser extends JDialog {
 
-    int w, h, y, x;
-    Tfmfld name;
-    Tfmfld lastName;
-    Tfmfld dni;
-    Tfmfld address;
-    Tfmfld email;
-    Tfmfld number_phone;
+    int w, h, y, x, indexDay = 0;
+    TfmfldUser name;
+    TfmfldUser lastName;
+    TfmfldUser dni;
+    TfmfldUser address;
+    TfmfldUser email;
+    TfmfldUser number_phone;
+    TfmfldUser pass;
     JButton send;
     JComboBox comboHiringYear;
     JComboBox comboHiringDay;
@@ -57,6 +59,7 @@ public class DialogRegisterUser extends JDialog {
     boolean val;
     boolean edit;
     UserModel user;
+    String role;
 
     public DialogRegisterUser(JFrame padre, Boolean modo, Boolean promotors, boolean edit, UserModel user) {
         super(padre, modo);
@@ -82,23 +85,30 @@ public class DialogRegisterUser extends JDialog {
         int widthForm = swfp(0.4275);
         int heightForm = shfp(0.1025);
 
-        name = new Tfmfld(swfp(0.02725), shfp(0.06125), widthForm, heightForm, "NOmbre", false, false, false);
+        name = new TfmfldUser(swfp(0.02725), shfp(0.06125), widthForm, heightForm, "NOmbre", false, false, false);
         add(name);
 
-        lastName = new Tfmfld(swfp(0.5425), shfp(0.06125), widthForm, heightForm, "Apellidos", false, false, false);
+        lastName = new TfmfldUser(swfp(0.5425), shfp(0.06125), widthForm, heightForm, "Apellidos", false, false, false);
         add(lastName);
 
-        dni = new Tfmfld(swfp(0.02725), shfp(0.1975), widthForm, heightForm, "Dni", false, true, false);
+        dni = new TfmfldUser(swfp(0.02725), shfp(0.1975), widthForm, heightForm, "Dni", false, true, false);
         add(dni);
 
-        number_phone = new Tfmfld(swfp(0.5425), shfp(0.1975), widthForm, heightForm, "Numero telefono", false, true, false);
+        number_phone = new TfmfldUser(swfp(0.5425), shfp(0.1975), widthForm, heightForm, "Numero telefono", false, true, false);
         add(number_phone);
 
-        email = new Tfmfld(swfp(0.02725), shfp(0.34), widthForm, heightForm, "Email", false, false, true);
+        email = new TfmfldUser(swfp(0.02725), shfp(0.34), widthForm, heightForm, "Email", false, false, true);
         add(email);
 
-        address = new Tfmfld(swfp(0.5425), shfp(0.34), widthForm, heightForm, "Direccion", false, false, false);
+        address = new TfmfldUser(swfp(0.5425), shfp(0.34), widthForm, heightForm, "Direccion", false, false, false);
         add(address);
+
+        JLabel titlePass = new JLabel("Contraseña");
+        titlePass.setBounds(swfp(0.02725), shfp(0.7), widthForm, shfp(0.05));
+
+        pass = new TfmfldUser(swfp(0.02725), shfp(0.758), widthForm, shfp(0.1075), "", true, false, false);
+        add(pass);
+        add(titlePass);
 
         dateHiring();
 
@@ -107,25 +117,38 @@ public class DialogRegisterUser extends JDialog {
             rol.addItem(constantUtilities.ROLE_EMPLEADO);
             rol.addItem(constantUtilities.ROLE_PROMOTOR);
             rol.setBounds(swfp(0.5425), shfp(0.54), widthForm, shfp(0.0875));
+            rol.addItemListener(new ItemListener() {
+                public void itemStateChanged(ItemEvent itemEvent) {
+                    role = String.valueOf(rol.getSelectedItem());
+                }
+            });
             add(rol);
 
             name.setText(user.getName());
+            System.out.println("\n\n\n" + user.getName());
             lastName.setText(user.getLastname());
+            System.out.println(user.getLastname());
             dni.setText(user.getDni());
+            System.out.println(user.getDni());
             number_phone.setText(user.getNumber_phone());
             email.setText(user.getEmail());
             address.setText(user.getAddress());
+            pass.setText(user.getPassword());
 
-            String date = user.getHiring_date();
-//            date.replace("\" 00:00:00\"", "");
+            if (user.getRole().equals(constantUtilities.ROLE_EMPLEADO)) {
+                rol.setSelectedIndex(0);
+            } else {
+                rol.setSelectedIndex(1);
+            }
 
-            System.out.println("DAte:---" + date.substring(0, 10));
+            try {
 
-            comboHiringDay.setSelectedItem("");
+            } catch (Exception e) {
+            }
         }
 
         send = new JButton("Enviar");
-        send.setBounds(swfp(0.3275), shfp(0.758), swfp(0.3475), shfp(0.1075));
+        send.setBounds(swfp(0.5825), shfp(0.758), swfp(0.3475), shfp(0.1075));
 
         send.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -145,7 +168,7 @@ public class DialogRegisterUser extends JDialog {
 
     void dateHiring() {
         JLabel titleHiring = new JLabel("Fecha de Contratacion");
-        titleHiring.setBounds(swfp(0.02725), swfp(0.475), swfp(0.4275), swfp(0.05));
+        titleHiring.setBounds(swfp(0.02725), shfp(0.475), swfp(0.4275), shfp(0.05));
 
         comboHiringYear = new JComboBox();
         comboHiringYear.setBounds(swfp(0.03), shfp(0.54), swfp(0.150225), shfp(0.0875));
@@ -162,20 +185,30 @@ public class DialogRegisterUser extends JDialog {
         comboHiringMonth = new JComboBox();
         comboHiringMonth.setBounds(swfp(0.2125), shfp(0.54), swfp(0.1075), shfp(0.0875));
         for (int i = 0; i < 12; i++) {
-            comboHiringMonth.addItem("" + (i + 1));
+            if (i < 9) {
+                comboHiringMonth.addItem("0" + (i + 1));
+            } else {
+                comboHiringMonth.addItem("" + (i + 1));
+            }
+
         }
 
         comboHiringDay = new JComboBox();
         comboHiringDay.setBounds(swfp(0.345), shfp(0.54), swfp(0.1075), shfp(0.0875));
         int msS = comboHiringMonth.getSelectedIndex();
         for (int i = 0; i < 31; i++) {
-            comboHiringDay.addItem("" + (i + 1));
+            if (i < 9) {
+                comboHiringDay.addItem("0" + (i + 1));
+            } else {
+                comboHiringDay.addItem("" + (i + 1));
+            }
         }
 
         comboHiringMonth.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent itemEvent) {
                 try {
-                    monthHiring = String.valueOf(comboHiringMonth.getSelectedItem());
+                    System.out.println("cambio");
+                    monthHiring = String.valueOf(Integer.parseInt(String.valueOf(comboHiringMonth.getSelectedItem())));
                     int msS = comboHiringMonth.getSelectedIndex();
                     int max = 0;
                     comboHiringDay.removeAllItems();
@@ -187,8 +220,14 @@ public class DialogRegisterUser extends JDialog {
                         max = 28;
                     }
                     for (int i = 0; i < max; i++) {
-                        comboHiringDay.addItem("" + (i + 1));
+                        if (i < 9) {
+                            comboHiringDay.addItem("0" + (i + 1));
+                        } else {
+                            comboHiringDay.addItem("" + (i + 1));
+                        }
                     }
+
+                    comboHiringDay.setSelectedIndex(indexDay);
                 } catch (Exception e) {
                 }
             }
@@ -196,13 +235,17 @@ public class DialogRegisterUser extends JDialog {
 
         comboHiringDay.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent itemEvent) {
+
                 dayHiring = String.valueOf(comboHiringDay.getSelectedItem());
+//                dayHiring = String.valueOf(Integer.parseInt(String.valueOf(comboHiringDay.getSelectedItem())));
             }
         });
 
         comboHiringYear.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent itemEvent) {
-                yearHiring = String.valueOf(comboHiringYear.getSelectedItem());
+
+//                yearHiring = String.valueOf(comboHiringYear.getSelectedItem());
+                yearHiring = String.valueOf(Integer.parseInt(String.valueOf(comboHiringYear.getSelectedItem())));;
             }
         });
 
@@ -215,41 +258,67 @@ public class DialogRegisterUser extends JDialog {
     void sendUserToProvider() {
         PostUserProvider p = new PostUserProvider();
         Boolean call = false;
-        try {
-            if (val) {
-                call = p.postUser(address.GetFormValue(),
-                        dni.GetFormValue(),
-                        email.GetFormValue(),
-                        lastName.GetFormValue(),
-                        name.GetFormValue(),
-                        number_phone.GetFormValue(),
-                        constantUtilities.ROLE_PROMOTOR,
-                        yearHiring + "-" + monthHiring + "-" + dayHiring + " 00:00:00"
-                );
-            } else {
-                call = p.postUser(address.GetFormValue(),
-                        dni.GetFormValue(),
-                        email.GetFormValue(),
-                        lastName.GetFormValue(),
-                        name.GetFormValue(),
-                        number_phone.GetFormValue(),
-                        constantUtilities.ROLE_EMPLEADO,
-                        yearHiring + "-" + monthHiring + "-" + dayHiring + " 00:00:00"
-                );
 
-            }
+        if (name.validateForm() && dni.validateForm() && address.validateForm() && email.validateForm() && number_phone.validateForm() && pass.validateForm()) {
+            try {
+                if (!edit) {
+                    if (val) {
+                        call = p.postUser(address.GetFormValue(),
+                                dni.GetFormValue(),
+                                email.GetFormValue(),
+                                lastName.GetFormValue(),
+                                name.GetFormValue(),
+                                number_phone.GetFormValue(),
+                                constantUtilities.ROLE_PROMOTOR,
+                                yearHiring + "-" + monthHiring + "-" + dayHiring + " 00:00:00",
+                                pass.GetFormValue(),
+                                false, false, null,
+                                null
+                        );
+                    } else {
+                        call = p.postUser(address.GetFormValue(),
+                                dni.GetFormValue(),
+                                email.GetFormValue(),
+                                lastName.GetFormValue(),
+                                name.GetFormValue(),
+                                number_phone.GetFormValue(),
+                                constantUtilities.ROLE_EMPLEADO,
+                                yearHiring + "-" + monthHiring + "-" + dayHiring + " 00:00:00", pass.GetFormValue(), false, false, null,
+                                null
+                        );
+
+                    }
+                } else {
+
+                    call = p.postUser(address.GetFormValue(),
+                            dni.GetFormValue(),
+                            email.GetFormValue(),
+                            lastName.GetFormValue(),
+                            name.GetFormValue(),
+                            number_phone.GetFormValue(),
+                            role,
+                            yearHiring + "-" + monthHiring + "-" + dayHiring + " 00:00:00",
+                            pass.GetFormValue(),
+                            true, false, user.getId(),
+                            null
+                    );
+
+                }
 //            String address, String dni, String email, String lastName, String name, String number_phone, String role
 
-            if (call) {
-                this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                if (call) {
+                    this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                }
+            } catch (IOException e) {
             }
-        } catch (IOException e) {
+        } else {
+            JOptionPane.showMessageDialog(null, "rellene todos los campos correctamente");
         }
 
     }
 }
 
-class Tfmfld extends JPanel {
+class TfmfldUser extends JPanel {
 
     JTextField form = new JTextField();
     JPasswordField formPass = new JPasswordField(20);
@@ -259,7 +328,7 @@ class Tfmfld extends JPanel {
     boolean email;
     boolean date;
 
-    public Tfmfld(int boundX, int boundY, int width, int height, String title, boolean pass, boolean isNumeric, boolean email) {
+    public TfmfldUser(int boundX, int boundY, int width, int height, String title, boolean pass, boolean isNumeric, boolean email) {
         this.pass = pass;
         this.isNumeric = isNumeric;
         this.email = email;
@@ -296,7 +365,7 @@ class Tfmfld extends JPanel {
 //            form.setBorder(BorderFactory.createLineBorder(colorForm));
             add(form);
         } else {
-            HintTextListener focusAdapterForm2 = new HintTextListener(form, titleGeneral);
+            HintTextListenerUser focusAdapterForm2 = new HintTextListenerUser(form, titleGeneral);
             form.setText(titleGeneral);
             form.setToolTipText(titleGeneral);
             form.addFocusListener(focusAdapterForm2);
@@ -389,12 +458,12 @@ class Tfmfld extends JPanel {
     }
 }
 
-class HintTextListener extends FocusAdapter {
+class HintTextListenerUser extends FocusAdapter {
 
     JTextField form = new JTextField();
     String titleGeneral;
 
-    public HintTextListener(JTextField f, String t) {
+    public HintTextListenerUser(JTextField f, String t) {
         form = f;
         titleGeneral = t;
     }

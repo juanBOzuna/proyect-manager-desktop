@@ -5,6 +5,7 @@
  */
 package abp.projectManagerDesktop.providers;
 
+import abp.projectManagerDesktop.providers.Models.ProjectModel;
 import abp.projectManagerDesktop.providers.Models.UserModel;
 import java.io.*;
 import java.util.ArrayList;
@@ -18,15 +19,28 @@ import org.json.JSONObject;
  */
 public class GetPromotors {
 
-    public ArrayList<UserModel> getPromotrs() throws IOException {
+    public ArrayList<UserModel> getPromotrs(Boolean edit, ProjectModel project) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
-        Request request = new Request.Builder()
-                .url("http://localhost:8080/user/rol=promotor")
-                .method("GET", null)
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json")
-                .build();
+        Request request = null;
+        if (edit) {
+
+            request = new Request.Builder()
+                    .url("http://localhost:8080/user/rolEdit=promotor/projectId=" + project.getId())
+                    .method("GET", null)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Accept", "application/json")
+                    .build();
+
+        } else {
+            request = new Request.Builder()
+                    .url("http://localhost:8080/user/rol=promotor")
+                    .method("GET", null)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Accept", "application/json")
+                    .build();
+
+        }
         Response response = client.newCall(request).execute();
         return parse(response.body().string());
     }
