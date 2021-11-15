@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package abp.projectManagerDesktop.home;
+package abp.projectManagerDesktop.homePromotor;
 
 import abp.projectManagerDesktop.constants.constantUtilities;
-import abp.projectManagerDesktop.providers.Models.UserModel;
+import abp.projectManagerDesktop.home.DialogDeleteUser;
+import abp.projectManagerDesktop.providers.Models.ResponseGetTaskModel;
+import abp.projectManagerDesktop.providers.Models.TaskModel;
 import java.awt.Color;
 import java.awt.Cursor;
 import static java.awt.Frame.HAND_CURSOR;
@@ -17,37 +19,41 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
  *
  * @author juan barraza
  */
-public class ElementUserAdmin extends JPanel implements MouseListener {
+public class ElementTasksPromotor extends JPanel implements MouseListener {
 
+    DialogDeleteTask delete;
+    DialogRegisterTask edit;
+    JFrame padre;
+    int w, h;
     JLabel picLabel;
     JLabel picLabelDelete;
     JLabel picLabelEdit;
-    JFrame padre;
-    UserModel user;
-    DialogDeleteUser delete;
-    DialogRegisterUser edit;
+    TaskModel task;
 
-    public ElementUserAdmin(int x, int y, int w, int h, UserModel user, JFrame padre) {
-        delete = new DialogDeleteUser(padre, false, user);
-        edit = new DialogRegisterUser(padre, false, false, true, user);
-        this.user = user;
-
+    public ElementTasksPromotor(int x, int y, int w, int h, JFrame marcoFather, TaskModel task) {
         this.padre = padre;
-        int wImage = (h / 2) - 5;
+        this.task = task;
+        delete = new DialogDeleteTask(marcoFather, false, task);
+        edit = new DialogRegisterTask(marcoFather, false, true, task);
+        this.w = w;
+        this.h = h;
+//        this.projectModel = projectModel;
+//        edit = new DialogRegisterProject(padre, false, true, projectModel);
+
+//        dialogDelete = new DialogDeleteProject(padre, false, projectModel.getProject());
         setBounds(x, y, w, h);
         setBackground(constantUtilities.colorItemTask);
         setLayout(null);
 
-        int xEye = w - (w / 8);
+        int xEye = w - (w / 13);
         int yEye = (y / 2) - ((w / 5) / 2);
-
+        int wImage = (h / 2) - 5;
         JPanel panelEye = new JPanel();
         panelEye.setBackground(Color.black);
         panelEye.setBounds(xEye, (h / 2) - (wImage / 2), wImage, wImage);
@@ -83,7 +89,7 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
         title.setLayout(new GridLayout(1, 1));
         title.setBounds(10, (h / 2) - (((h / 2) - 5) / 2), xEye - 20, (h / 2) - 5);
 
-        JLabel titleText = new JLabel(user.getName());
+        JLabel titleText = new JLabel(task.getName());
         title.add(titleText);
 
         add(title);
@@ -92,23 +98,22 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
         add(picLabelDelete);
     }
 
-    public DialogDeleteUser getDelete() {
+    public DialogDeleteTask getDelete() {
         return delete;
     }
 
-    public DialogRegisterUser getEdit() {
+    public DialogRegisterTask getEdit() {
         return edit;
     }
 
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == picLabelEdit) {
-//            edit = new DialogRegisterUser(padre, false, false, true, user);
-            edit.setVisible(true);
-        }
         if (e.getSource() == picLabelDelete) {
-//            DialogDeleteProject edit = new DialogDeleteProject(padre, false);
             delete.setVisible(true);
         }
+        if (e.getSource() == picLabelEdit) {
+            edit.setVisible(true);
+        }
+
     }
 
     public void mousePressed(MouseEvent e) {
@@ -126,5 +131,4 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
-
 }

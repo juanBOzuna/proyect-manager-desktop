@@ -6,7 +6,7 @@
 package abp.projectManagerDesktop.home;
 
 import abp.projectManagerDesktop.constants.constantUtilities;
-import static abp.projectManagerDesktop.home.Home.getProjectsAdminProvider;
+import static abp.projectManagerDesktop.home.HomeAdmin.getProjectsAdminProvider;
 import abp.projectManagerDesktop.providers.GetProjectsAdminProvider;
 import abp.projectManagerDesktop.providers.Models.*;
 import javax.swing.*;
@@ -28,7 +28,7 @@ import javax.swing.plaf.DimensionUIResource;
  *
  * @author juan barraza
  */
-public class Home {
+public class HomeAdmin {
 
     static GetProjectsAdminProvider getProjectsAdminProvider = new GetProjectsAdminProvider();
 
@@ -53,7 +53,7 @@ class VentanaHome extends JFrame implements MouseListener {
     JPanel itemRolUser;
     JPanel itemNavigation;
     JPanel menuItemHome;
-    JPanel menuItemTasks;
+    JPanel menuItemProjects;
     JPanel menuItemUsers;
     JLabel textAuxForPanelContent;
     JPanel headerStep;
@@ -63,6 +63,7 @@ class VentanaHome extends JFrame implements MouseListener {
     JLabel iconAdd;
     JPanel panelTitleHome;
     UsersModule createUserModule;
+    ProjectsModule projectsMpdule;
     JPanel menuItemAux;
 
     public VentanaHome(int widthScreenSize, int heightScreenSize) throws IOException {
@@ -130,7 +131,7 @@ class VentanaHome extends JFrame implements MouseListener {
         itemRolUser = new JPanel();
         itemRolUser.setBackground(constantUtilities.primaryColorBlack);
         itemRolUser.setLayout(new GridLayout(1, 1));
-        fill = new JLabel("Super Admin");
+        fill = new JLabel(constantUtilities.usuario.getName() + constantUtilities.usuario.getLastname());
         fill.setHorizontalAlignment(SwingConstants.CENTER);
         fill.setVerticalAlignment(SwingConstants.CENTER);
         fill.setForeground(constantUtilities.secundaryColor);
@@ -148,46 +149,50 @@ class VentanaHome extends JFrame implements MouseListener {
         fill.setForeground(colorFontitem2);
         itemNavigation.add(fill);
 
-        menuItemHome = new JPanel();
-        menuItemHome.addMouseListener(this);
-        menuItemHome.setBackground(constantUtilities.primaryColorBlack);
-        menuItemHome.setLayout(new GridLayout(1, 1));
-        menuItemHome.setCursor(new Cursor(HAND_CURSOR));
-        fill = new JLabel("Home");
-        fill.setBorder(new EmptyBorder(0, 20, 0, 0));
-        fill.setHorizontalAlignment(SwingConstants.LEADING);
-        fill.setVerticalAlignment(SwingConstants.CENTER);
-        fill.setForeground(Color.white);
-        menuItemHome.add(fill);
-
-        menuItemTasks = new JPanel();
-        menuItemTasks.addMouseListener(this);
-        menuItemTasks.setBackground(constantUtilities.primaryColorBlack);
-        menuItemTasks.setLayout(new GridLayout(1, 1));
-        menuItemTasks.setCursor(new Cursor(HAND_CURSOR));
-        fill = new JLabel("Proyectos");
-        fill.setBorder(new EmptyBorder(0, 20, 0, 0));
-        fill.setHorizontalAlignment(SwingConstants.LEADING);
-        fill.setVerticalAlignment(SwingConstants.CENTER);
-        fill.setForeground(Color.white);
-        menuItemTasks.add(fill);
-
-        menuItemUsers = new JPanel();
-        menuItemUsers.addMouseListener(this);
-        menuItemUsers.setBackground(constantUtilities.primaryColorBlack);
-        menuItemUsers.setLayout(new GridLayout(1, 1));
-        menuItemUsers.setCursor(new Cursor(HAND_CURSOR));
-        fill = new JLabel("Usuarios");
-        fill.setBorder(new EmptyBorder(0, 20, 0, 0));
-        fill.setHorizontalAlignment(SwingConstants.LEADING);
-        fill.setVerticalAlignment(SwingConstants.CENTER);
-        fill.setForeground(Color.white);
-        menuItemUsers.add(fill);
         drawerStatic.add(itemRolUser);
         drawerStatic.add(itemNavigation);
-        drawerStatic.add(menuItemHome);
-        drawerStatic.add(menuItemTasks);
-        drawerStatic.add(menuItemUsers);
+
+        if (!constantUtilities.ROLE_EMPLEADO.equals(constantUtilities.usuario.getRole()) && !constantUtilities.ROLE_PROMOTOR.equals(constantUtilities.usuario.getRole())) {
+            menuItemHome = new JPanel();
+            menuItemHome.addMouseListener(this);
+            menuItemHome.setBackground(constantUtilities.primaryColorBlack);
+            menuItemHome.setLayout(new GridLayout(1, 1));
+            menuItemHome.setCursor(new Cursor(HAND_CURSOR));
+            fill = new JLabel("Home");
+            fill.setBorder(new EmptyBorder(0, 20, 0, 0));
+            fill.setHorizontalAlignment(SwingConstants.LEADING);
+            fill.setVerticalAlignment(SwingConstants.CENTER);
+            fill.setForeground(Color.white);
+            menuItemHome.add(fill);
+
+            menuItemProjects = new JPanel();
+            menuItemProjects.addMouseListener(this);
+            menuItemProjects.setBackground(constantUtilities.primaryColorBlack);
+            menuItemProjects.setLayout(new GridLayout(1, 1));
+            menuItemProjects.setCursor(new Cursor(HAND_CURSOR));
+            fill = new JLabel("Proyectos");
+            fill.setBorder(new EmptyBorder(0, 20, 0, 0));
+            fill.setHorizontalAlignment(SwingConstants.LEADING);
+            fill.setVerticalAlignment(SwingConstants.CENTER);
+            fill.setForeground(Color.white);
+            menuItemProjects.add(fill);
+
+            menuItemUsers = new JPanel();
+            menuItemUsers.addMouseListener(this);
+            menuItemUsers.setBackground(constantUtilities.primaryColorBlack);
+            menuItemUsers.setLayout(new GridLayout(1, 1));
+            menuItemUsers.setCursor(new Cursor(HAND_CURSOR));
+            fill = new JLabel("Usuarios");
+            fill.setBorder(new EmptyBorder(0, 20, 0, 0));
+            fill.setHorizontalAlignment(SwingConstants.LEADING);
+            fill.setVerticalAlignment(SwingConstants.CENTER);
+            fill.setForeground(Color.white);
+            menuItemUsers.add(fill);
+
+            drawerStatic.add(menuItemHome);
+            drawerStatic.add(menuItemProjects);
+            drawerStatic.add(menuItemUsers);
+        }
 
         panelP.add(drawerStatic);
     }
@@ -205,7 +210,7 @@ class VentanaHome extends JFrame implements MouseListener {
         int widthPanelStep = (int) (widthWindow * 0.30);
         //define title desktop
 
-//        icon Add
+        //icon Add
         Image imgAdd = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/add.png").getImage();
         ImageIcon imgAdd2 = new ImageIcon(imgAdd.getScaledInstance(title.getHeight(), title.getHeight(), Image.SCALE_SMOOTH));
         iconAdd = new JLabel();
@@ -321,8 +326,6 @@ class VentanaHome extends JFrame implements MouseListener {
             int heightTask = heightPanel / 13;
             ElementTaskAdmin task;
 
-            System.out.println("Largo de la");
-
             for (int j = 0; j < projects.get(i).getTasks().size(); j++) {
                 if (j == 0) {
                     yTask = 0;
@@ -361,7 +364,7 @@ class VentanaHome extends JFrame implements MouseListener {
     ArrayList<ResponseGetProjectsAdminModel> getProjectsAdmin() {
 
         try {
-            return getProjectsAdminProvider.getModules();
+            return getProjectsAdminProvider.getProjects();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "No se  puece conectar reinicie la app");
             return null;
@@ -371,27 +374,7 @@ class VentanaHome extends JFrame implements MouseListener {
     public void mouseClicked(MouseEvent evento) {
 
         if (evento.getSource() == menuItemUsers) {
-            int topPanelHeight = header.getHeight();
-            int widthPanelDrawer = drawerStatic.getWidth();
-            int heightPanel = heightWindow - topPanelHeight;
-            int widthPanel = widthWindow - widthPanelDrawer;
-
-            contentHome.removeAll();
-
-            panelTitleHome.removeAll();
-            panelTitleHome.updateUI();
-            panelTitleHome.repaint();
-
-            panelP.remove(panelTitleHome);
-            panelP.updateUI();
-            panelP.repaint();
-
-            createUserModule = new UsersModule(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38, this);
-            scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38);
-            scrollContentHome.setViewportView(createUserModule);
-            scrollContentHome.setBackground(Color.white);
-            scrollContentHome.updateUI();
-            scrollContentHome.repaint();
+            createUserModule();
 
         }
 
@@ -416,8 +399,13 @@ class VentanaHome extends JFrame implements MouseListener {
             } catch (IOException e) {
             }
         }
+
+        if (evento.getSource() == menuItemProjects) {
+            createProjectsModule();
+        }
+
         if (evento.getSource() == iconAdd) {
-            DialogRegisterProject d = new DialogRegisterProject(this, false);
+            DialogRegisterProject d = new DialogRegisterProject(this, false, false, null);
             d.addWindowListener(new java.awt.event.WindowAdapter() {
                 public void windowClosing(WindowEvent winEvt) {
                     try {
@@ -464,6 +452,113 @@ class VentanaHome extends JFrame implements MouseListener {
 
     }
 
+    void createProjectsModule() {
+        int topPanelHeight = header.getHeight();
+        int widthPanelDrawer = drawerStatic.getWidth();
+        int heightPanel = heightWindow - topPanelHeight;
+        int widthPanel = widthWindow - widthPanelDrawer;
+
+        contentHome.removeAll();
+
+        panelTitleHome.removeAll();
+        panelTitleHome.updateUI();
+        panelTitleHome.repaint();
+
+        panelP.remove(panelTitleHome);
+        panelP.updateUI();
+        panelP.repaint();
+
+        projectsMpdule = new ProjectsModule(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38, this);
+        scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel - 16, heightPanel - 38);
+        scrollContentHome.setViewportView(projectsMpdule);
+        scrollContentHome.setBackground(Color.white);
+        scrollContentHome.updateUI();
+        scrollContentHome.repaint();
+
+        for (DialogRegisterProject object : projectsMpdule.getEdits()) {
+            object.addWindowListener(new java.awt.event.WindowAdapter() {
+                public void windowClosing(WindowEvent winEvt) {
+                    projectsMpdule.removeAll();
+                    projectsMpdule = null;
+                    createProjectsModule();
+                }
+            });
+        }
+
+        for (DialogDeleteProject object : projectsMpdule.getDeletes()) {
+            object.addWindowListener(new java.awt.event.WindowAdapter() {
+                public void windowClosing(WindowEvent winEvt) {
+                    projectsMpdule.removeAll();
+                    projectsMpdule = null;
+                    createProjectsModule();
+//                    createUserModule.removeAll();
+//                    createUserModule = null;
+//                    createUserModule();
+                }
+            });
+        }
+    }
+
+    void createUserModule() {
+        int topPanelHeight = header.getHeight();
+        int widthPanelDrawer = drawerStatic.getWidth();
+        int heightPanel = heightWindow - topPanelHeight;
+        int widthPanel = widthWindow - widthPanelDrawer;
+
+        contentHome.removeAll();
+
+        panelTitleHome.removeAll();
+        panelTitleHome.updateUI();
+        panelTitleHome.repaint();
+
+        panelP.remove(panelTitleHome);
+        panelP.updateUI();
+        panelP.repaint();
+
+        createUserModule = new UsersModule(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38, this);
+        scrollContentHome.setBounds(widthPanelDrawer, topPanelHeight, widthPanel, heightPanel - 38);
+        scrollContentHome.setViewportView(createUserModule);
+        scrollContentHome.setBackground(Color.white);
+        scrollContentHome.updateUI();
+        scrollContentHome.repaint();
+
+        createUserModule.registerUserDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(WindowEvent winEvt) {
+//                    JOptionPane.showMessageDialog(null, " haga click en el menu usuarios nuevamente para refrescar");
+                createUserModule.removeAll();
+                createUserModule = null;
+                createUserModule();
+            }
+        });
+        for (DialogDeleteUser object : createUserModule.getDeletes()) {
+            object.addWindowListener(new java.awt.event.WindowAdapter() {
+                public void windowClosing(WindowEvent winEvt) {
+                    createUserModule.removeAll();
+                    createUserModule = null;
+                    createUserModule();
+                }
+            });
+        }
+        for (DialogRegisterUser object : createUserModule.getEdits()) {
+            object.addWindowListener(new java.awt.event.WindowAdapter() {
+                public void windowClosing(WindowEvent winEvt) {
+                    createUserModule.removeAll();
+                    createUserModule = null;
+                    createUserModule();
+                }
+            });
+        }
+        createUserModule.registerPromotorDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(WindowEvent winEvt) {
+//                    JOptionPane.showMessageDialog(null, " haga click en el menu usuarios nuevamente para refrescar");
+                createUserModule.removeAll();
+                createUserModule = null;
+                createUserModule();
+            }
+        });
+
+    }
+
     void reloadHome(boolean fromUser) throws IOException {
         constructPanelHome(false);
         contentHome.updateUI();
@@ -482,8 +577,8 @@ class VentanaHome extends JFrame implements MouseListener {
         if (evento.getSource() == menuItemHome) {
             menuItemHome.setBackground(constantUtilities.primaryColorBlack);
         }
-        if (evento.getSource() == menuItemTasks) {
-            menuItemTasks.setBackground(constantUtilities.primaryColorBlack);
+        if (evento.getSource() == menuItemProjects) {
+            menuItemProjects.setBackground(constantUtilities.primaryColorBlack);
         }
         if (evento.getSource() == menuItemUsers) {
             menuItemUsers.setBackground(constantUtilities.primaryColorBlack);
@@ -496,8 +591,8 @@ class VentanaHome extends JFrame implements MouseListener {
             menuItemHome.setBackground(constantUtilities.colorItemEnteredOfDrawer);
         }
 
-        if (evento.getSource() == menuItemTasks) {
-            menuItemTasks.setBackground(constantUtilities.colorItemEnteredOfDrawer);
+        if (evento.getSource() == menuItemProjects) {
+            menuItemProjects.setBackground(constantUtilities.colorItemEnteredOfDrawer);
         }
 
         if (evento.getSource() == menuItemUsers) {

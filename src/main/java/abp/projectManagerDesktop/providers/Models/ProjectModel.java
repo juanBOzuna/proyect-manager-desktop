@@ -18,8 +18,8 @@ public class ProjectModel {
     private String name;
     private String key_name;
     private String comercial_designation;
-    private Timestamp date_init;
-    private Timestamp date_finish;
+    private String date_init;
+    private String date_finish;
     private Long promotor_id;
     private Timestamp created_at;
     private double percentageCompleted;
@@ -56,19 +56,19 @@ public class ProjectModel {
         this.comercial_designation = comercial_designation;
     }
 
-    public Timestamp getDate_init() {
+    public String getDate_init() {
         return date_init;
     }
 
-    public void setDate_init(Timestamp date_init) {
+    public void setDate_init(String date_init) {
         this.date_init = date_init;
     }
 
-    public Timestamp getDate_finish() {
+    public String getDate_finish() {
         return date_finish;
     }
 
-    public void setDate_finish(Timestamp date_finish) {
+    public void setDate_finish(String date_finish) {
         this.date_finish = date_finish;
     }
 

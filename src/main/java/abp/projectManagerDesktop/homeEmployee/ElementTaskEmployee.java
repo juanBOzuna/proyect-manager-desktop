@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package abp.projectManagerDesktop.home;
+package abp.projectManagerDesktop.homeEmployee;
 
 import abp.projectManagerDesktop.constants.constantUtilities;
+import abp.projectManagerDesktop.providers.Models.TaskModel;
 import abp.projectManagerDesktop.providers.Models.UserModel;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -14,35 +15,28 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  *
  * @author juan barraza
  */
-public class ElementUserAdmin extends JPanel implements MouseListener {
+public class ElementTaskEmployee extends JPanel implements MouseListener {
 
     JLabel picLabel;
     JLabel picLabelDelete;
     JLabel picLabelEdit;
     JFrame padre;
-    UserModel user;
-    DialogDeleteUser delete;
-    DialogRegisterUser edit;
+//    UserModel user;
+//    DialogDeleteUser delete;
+//    DialogRegisterUser edit;
 
-    public ElementUserAdmin(int x, int y, int w, int h, UserModel user, JFrame padre) {
-        delete = new DialogDeleteUser(padre, false, user);
-        edit = new DialogRegisterUser(padre, false, false, true, user);
-        this.user = user;
+    public ElementTaskEmployee(int x, int y, int w, int h, JFrame padre, TaskModel task) {
 
         this.padre = padre;
         int wImage = (h / 2) - 5;
         setBounds(x, y, w, h);
-        setBackground(constantUtilities.colorItemTask);
+        setBackground(Color.white);
         setLayout(null);
 
         int xEye = w - (w / 8);
@@ -81,34 +75,22 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
 //        int yEye = (y / 2) - ((w / 5) / 2);
         JPanel title = new JPanel();
         title.setLayout(new GridLayout(1, 1));
+        title.setBackground(Color.white);
         title.setBounds(10, (h / 2) - (((h / 2) - 5) / 2), xEye - 20, (h / 2) - 5);
 
-        JLabel titleText = new JLabel(user.getName());
+        JLabel titleText = new JLabel("asds");
+        titleText.setBackground(Color.white);
         title.add(titleText);
 
         add(title);
         add(picLabel);
         add(picLabelEdit);
         add(picLabelDelete);
-    }
 
-    public DialogDeleteUser getDelete() {
-        return delete;
-    }
-
-    public DialogRegisterUser getEdit() {
-        return edit;
     }
 
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == picLabelEdit) {
-//            edit = new DialogRegisterUser(padre, false, false, true, user);
-            edit.setVisible(true);
-        }
-        if (e.getSource() == picLabelDelete) {
-//            DialogDeleteProject edit = new DialogDeleteProject(padre, false);
-            delete.setVisible(true);
-        }
+
     }
 
     public void mousePressed(MouseEvent e) {
@@ -126,5 +108,4 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
-
 }

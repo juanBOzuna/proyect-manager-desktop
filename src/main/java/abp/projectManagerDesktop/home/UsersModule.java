@@ -52,6 +52,12 @@ public class UsersModule extends JPanel implements MouseListener {
     Map<String, ArrayList<UserModel>> mapUsers;
     ArrayList<UserModel> promotors = new ArrayList<UserModel>();
     ArrayList<UserModel> employees = new ArrayList<UserModel>();
+    DialogRegisterUser registerUserDialog = new DialogRegisterUser(padre, false, false, false, null);
+
+    DialogRegisterUser registerPromotorDialog = new DialogRegisterUser(padre, false, true, false, null);
+
+    ArrayList<DialogDeleteUser> deletes = new ArrayList<DialogDeleteUser>();
+    ArrayList<DialogRegisterUser> edits = new ArrayList<DialogRegisterUser>();
 
 //    ArrayList<UserModel> employees
     public UsersModule(int x, int y, int w, int h, JFrame padre) {
@@ -109,25 +115,20 @@ public class UsersModule extends JPanel implements MouseListener {
         UserModel employe;
         int contador = 0;
         for (UserModel employee : employees) {
+
             contador++;
             if (contador == 1) {
                 yElement = iconAddUser.getY() + iconAddUser.getHeight() + 10;
             } else {
                 yElement += 50;
             }
-            element = new ElementUserAdmin(0, yElement, widthPanel, 40, employee,padre);
+            element = new ElementUserAdmin(0, yElement, widthPanel, 40, employee, padre);
+            deletes.add(element.getDelete());
+//            elem
+            edits.add(element.getEdit());
             panelEmployees.add(element);
         }
 
-//        //icon Reload
-//        Image imgReload = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/reload.png").getImage();
-//        ImageIcon imgReload2 = new ImageIcon(imgReload.getScaledInstance(title.getHeight(), title.getHeight(), Image.SCALE_SMOOTH));
-//        JLabel iconReload = new JLabel();
-//        iconReload.setIcon(imgReload2);
-//        iconReload.setCursor(new Cursor(HAND_CURSOR));
-////        iconReload.addMouseListener(this);
-//        iconReload.setBounds((widthPanel - 100) - title.getHeight(), title.getY(), title.getHeight(), title.getHeight());
-//        //icon Reload
         int heightPreferred = titlePanel.getY() + titlePanel.getHeight() + (50 * employees.size()) + 10;
         panelEmployees.setPreferredSize(new DimensionUIResource(widthPanel, heightPreferred));
 
@@ -175,14 +176,29 @@ public class UsersModule extends JPanel implements MouseListener {
         UserModel employe;
         int contador = 0;
         for (UserModel promotor : promotors) {
+            
+            
             contador++;
             if (contador == 1) {
                 yElement = iconAddPromotors.getY() + iconAddPromotors.getHeight() + 10;
             } else {
                 yElement += 50;
             }
-            element = new ElementUserAdmin(0, yElement, widthPanel, 40, promotor,padre);
-            panelPromotors.add(element);
+            element = new ElementUserAdmin(0, yElement, widthPanel, 40, promotor, padre);
+            deletes.add(element.getDelete());
+//            elem
+            edits.add(element.getEdit());
+             panelPromotors.add(element);
+            
+//            
+//            contador++;
+//            if (contador == 1) {
+//                yElement = iconAddPromotors.getY() + iconAddPromotors.getHeight() + 10;
+//            } else {
+//                yElement += 50;
+//            }
+//            element = new ElementUserAdmin(0, yElement, widthPanel, 40, promotor, padre);
+//            panelPromotors.add(element);
         }
 
         int heightPreferred = titlePanel.getY() + titlePanel.getHeight() + (50 * promotors.size()) + 10;
@@ -203,6 +219,14 @@ public class UsersModule extends JPanel implements MouseListener {
         add(scrollPanelPromotors);
         this.updateUI();
         this.repaint();
+    }
+
+    ArrayList<DialogDeleteUser> getDeletes() {
+        return deletes;
+    }
+
+    ArrayList<DialogRegisterUser> getEdits() {
+        return edits;
     }
 
     void addTitleModul() {
@@ -242,27 +266,20 @@ public class UsersModule extends JPanel implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == iconAddUser) {
             System.out.println("undio");
-            DialogRegisterUser registerUser = new DialogRegisterUser(padre, false, false, false, null);
-            registerUser.setVisible(true);
+//            registerUser = new DialogRegisterUser(padre, false, false, false, null);
+            registerUserDialog.setVisible(true);
 
-            registerUser.addWindowListener(new java.awt.event.WindowAdapter() {
-                public void windowClosing(WindowEvent winEvt) {
-                    JOptionPane.showMessageDialog(null, " haga click en el menu usuarios nuevamente para refrescar");
-                }
-            });
+//            registerUser.addWindowListener(new java.awt.event.WindowAdapter() {
+//                public void windowClosing(WindowEvent winEvt) {
+//                    JOptionPane.showMessageDialog(null, " haga click en el menu usuarios nuevamente para refrescar");
+//                }
+//            });
         }
 
         if (e.getSource() == iconAddPromotors) {
             System.out.println("undio");
-            DialogRegisterUser registerUser = new DialogRegisterUser(padre, false, true, false, null);
-            registerUser.setVisible(true);
-
-            registerUser.addWindowListener(new java.awt.event.WindowAdapter() {
-                public void windowClosing(WindowEvent winEvt) {
-                    //                    refresh();
-                    JOptionPane.showMessageDialog(null, " haga click en el menu usuarios nuevamente para refrescar");
-                }
-            });
+//            DialogRegisterUser registerUser = new DialogRegisterUser(padre, false, true, false, null);
+            registerPromotorDialog.setVisible(true);
         }
     }
 

@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  * @author juan barraza
  */
 public class UserModel {
-    
+
     private Long id;
 
     private String dni;
@@ -23,6 +23,9 @@ public class UserModel {
     private String email;
     private String hiring_date;
     private String role;
+    private String password;
+    private Long taskId;
+    private Long projectId;
 
     public Long getId() {
         return id;
@@ -30,6 +33,30 @@ public class UserModel {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getDni() {
@@ -95,5 +122,5 @@ public class UserModel {
     public void setRole(String role) {
         this.role = role;
     }
-    
+
 }

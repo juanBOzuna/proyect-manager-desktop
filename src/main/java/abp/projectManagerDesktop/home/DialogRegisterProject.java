@@ -8,6 +8,8 @@ package abp.projectManagerDesktop.home;
 import abp.projectManagerDesktop.constants.constantUtilities;
 import abp.projectManagerDesktop.providers.Models.UserModel;
 import abp.projectManagerDesktop.providers.GetPromotors;
+import abp.projectManagerDesktop.providers.Models.ProjectModel;
+import abp.projectManagerDesktop.providers.Models.ResponseGetProjectsAdminModel;
 import abp.projectManagerDesktop.providers.PostProjectProvider;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -34,6 +36,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -60,14 +63,25 @@ public class DialogRegisterProject extends JDialog {
     JLabel titleInit;
     JLabel titleFinish;
     Long promotorID;
+    Boolean edit;
+    ResponseGetProjectsAdminModel projectRegister;
     ArrayList<UserModel> promotors = new ArrayList<UserModel>();
 
-    public DialogRegisterProject(JFrame padre, Boolean modo) {
+    public DialogRegisterProject(JFrame padre, Boolean modo, Boolean edit, ResponseGetProjectsAdminModel project) {
+
         super(padre, modo);
+
+        this.projectRegister = project;
+        this.edit = edit;
+
         GetPromotors getPromotors = new GetPromotors();
 
         try {
-            this.promotors = getPromotors.getPromotrs();
+            if (edit) {
+                this.promotors = getPromotors.getPromotrs(true, projectRegister.getProject());
+            } else {
+                this.promotors = getPromotors.getPromotrs(false, null);
+            }
         } catch (IOException e) {
         }
 
@@ -91,15 +105,12 @@ public class DialogRegisterProject extends JDialog {
         promotorsComb.setBounds((getWidth() / 2) + 10, formKey_name.getY() + formKey_name.getHeight() + 10, (getWidth() / 2) - 40, 30);
 
         try {
-//            for (int i = 0; i < promotors.size(); i++) {
-//                 promotorsComb.addItem(promotors.get(i).getName());
-//                
-//            }
-            
+
             int id = 0;
             for (UserModel promotor : promotors) {
                 id++;
-                promotorsComb.addItem(promotor.getName());
+                promotorsComb.addItem(promotor.getId() + "-" + promotor.getName());
+//                promotorsComb.addItem(promotor.getName());
                 if (id == 1) {
                     promotorID = promotor.getId();
                 }
@@ -110,7 +121,8 @@ public class DialogRegisterProject extends JDialog {
 
         promotorsComb.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent itemEvent) {
-                setPromotorId(String.valueOf(promotorsComb.getSelectedItem()), promotors);
+
+                setPromotorId(promotors);
                 System.out.println("Promotor: =--------" + promotorID
                 );
             }
@@ -137,29 +149,65 @@ public class DialogRegisterProject extends JDialog {
 
         add(send);
 
+        if (edit) {
+
+            formName.setText(projectRegister.getProject().getName());
+            formComercial_designation.setText(projectRegister.getProject().getComercial_designation());
+            formKey_name.setText(projectRegister.getProject().getKey_name());
+//            promotorID = projectRegister.getProject().getPromotor_id();
+
+            for (int i = 0; i < promotors.size(); i++) {
+//                if (projectRegister.getPromotor().getName().equals(promotors.get(i).getName())) {
+//                    promotorsComb.setSelectedIndex(i);
+//                }
+                try {
+                    if (projectRegister.getPromotor().getName().equals(promotors.get(i).getName())) {
+                        promotorsComb.setSelectedIndex(i);
+                    }
+                } catch (Exception e) {
+                }
+            }
+        }
     }
 
     void sendProjectToProvider() {
-//         formName;
-//    Tfmfld formComercial_designation;
-//    Tfmfld formKey_name;
-//        Long promotorId = 0L;
-
         PostProjectProvider p = new PostProjectProvider();
-        try {
-            boolean call = p.postProyect(formName.GetFormValue(),
-                    formKey_name.GetFormValue(),
-                    formComercial_designation.GetFormValue(),
-                    yearInit + "-" + monthInit + "-" + dayInit + " 00:00:00",
-                    yearFinish + "-" + monthFinish + "-" + dayFinish + " 00:00:00",
-                    promotorID
-            );
+        if (formName.validateForm() && formComercial_designation.validateForm() && formKey_name.validateForm()) {
+            if (edit) {
+                try {
+                    boolean call = p.postProyect(formName.GetFormValue(),
+                            formKey_name.GetFormValue(),
+                            formComercial_designation.GetFormValue(),
+                            yearInit + "-" + monthInit + "-" + dayInit + " 00:00:00",
+                            yearFinish + "-" + monthFinish + "-" + dayFinish + " 00:00:00",
+                            promotorID, true, projectRegister.getProject().getId()
+                    );
 
-            if (call) {
-                this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                    if (call) {
+                        this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                    }
+
+                } catch (IOException e) {
+                }
+            } else {
+                try {
+                    boolean call = p.postProyect(formName.GetFormValue(),
+                            formKey_name.GetFormValue(),
+                            formComercial_designation.GetFormValue(),
+                            yearInit + "-" + monthInit + "-" + dayInit + " 00:00:00",
+                            yearFinish + "-" + monthFinish + "-" + dayFinish + " 00:00:00",
+                            promotorID, false, 0L
+                    );
+
+                    if (call) {
+                        this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                    }
+
+                } catch (IOException e) {
+                }
             }
-
-        } catch (IOException e) {
+        } else {
+            JOptionPane.showMessageDialog(null, "Rellene los campos correctamente");
         }
 
     }
@@ -227,6 +275,15 @@ public class DialogRegisterProject extends JDialog {
             }
         });
 
+        if (edit) {
+            String dateOfProject = String.valueOf(projectRegister.getProject().getDate_finish());
+            String[] parts = dateOfProject.substring(0, 10).split("-");
+            comboFinishMonth.setSelectedIndex(Integer.parseInt(parts[1]) - 1);
+            int indexDay = Integer.parseInt(parts[2]) - 1;
+            comboFinishDay.setSelectedIndex(Integer.parseInt(parts[2]) - 1);
+            comboFinishYear.setSelectedIndex(Integer.parseInt(parts[0]) - year);
+
+        }
         add(titleFinish);
         add(comboFinishYear);
         add(comboFinishMonth);
@@ -300,6 +357,15 @@ public class DialogRegisterProject extends JDialog {
             }
         });
 
+        if (edit) {
+            String dateInitOfProject = String.valueOf(projectRegister.getProject().getDate_init());
+            String[] parts = dateInitOfProject.substring(0, 10).split("-");
+            comboInitMonth.setSelectedIndex(Integer.parseInt(parts[1]) - 1);
+            int indexDay = Integer.parseInt(parts[2]) - 1;
+            comboInitDay.setSelectedIndex(Integer.parseInt(parts[2]) - 1);
+            comboInitYear.setSelectedIndex(Integer.parseInt(parts[0]) - year);
+
+        }
         add(titleInit);
         add(comboInitYear);
         add(comboInitMonth);
@@ -314,10 +380,11 @@ public class DialogRegisterProject extends JDialog {
 
     }
 
-    void setPromotorId(String name, ArrayList<UserModel> promotors) {
+    void setPromotorId(ArrayList<UserModel> promotors) {
         try {
+            String[] split = String.valueOf(promotorsComb.getSelectedItem()).split("-");
             for (UserModel promotor : promotors) {
-                if (promotor.getName().equals(name)) {
+                if (promotor.getId() == Long.parseLong(split[0])) {
                     promotorID = promotor.getId();
                 }
             }
@@ -450,6 +517,11 @@ class Tfmfld extends JPanel {
     boolean validateSimpleForm() {
         return !form.getText().equals(titleGeneral);
 
+    }
+
+    void setText(String text) {
+        form.setText(text);
+        formPass.setText(text);
     }
 
     String getPass() {
