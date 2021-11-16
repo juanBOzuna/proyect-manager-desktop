@@ -134,7 +134,6 @@ class WindowEmployee extends JFrame implements MouseListener {
         panelTasks.add(titlePanel);
 
         try {
-//            ElementTaskEmployee taskE;
             int yElement = 0;
 
             yElement = titlePanel.getY() + titlePanel.getHeight() + 10;
