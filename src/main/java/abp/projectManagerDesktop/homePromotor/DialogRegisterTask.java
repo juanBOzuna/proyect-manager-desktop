@@ -110,10 +110,10 @@ public class DialogRegisterTask extends JDialog {
 
         comboEmplpoyees = new JComboBox();
         comboEmplpoyees.setBounds(swfp(0.1), 130, w / 2, 30);
-        if (!edit) {
+//        if (!edit) {
 
             comboEmplpoyees.addItem("Ninguno");
-        }
+//        }
         try {
             for (UserModel employee : employees) {
                 comboEmplpoyees.addItem(employee.getId() + "-" + employee.getName());

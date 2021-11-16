@@ -60,6 +60,7 @@ class WindowEmployee extends JFrame implements MouseListener {
 //    JPanel panelP;
     int Width;
     int height;
+    JPanel panelTask;
 
     JLabel picLabelFinish;
     TaskModel task;
@@ -167,7 +168,7 @@ class WindowEmployee extends JFrame implements MouseListener {
     }
 
     JPanel AddTask(int x, int y, int w, int h) {
-        JPanel panelTask = new JPanel();
+        panelTask = new JPanel();
         //    UserModel user;
         //    DialogDeleteUser delete;
         //    DialogRegisterUser edit;
@@ -237,6 +238,9 @@ class WindowEmployee extends JFrame implements MouseListener {
                 panelTasks.removeAll();
                 panelTasks.updateUI();
                 panelTasks.repaint();
+                panelTask.removeAll();
+                panelTask.updateUI();
+                panelTask.repaint();
 
                 createPanelTask();
 

@@ -81,16 +81,10 @@ class VentanaHomePromotor extends JFrame implements MouseListener {
     JPanel menuItemHome;
     JPanel menuItemUsers;
     JPanel menuItemTasks;
-    JLabel textAuxForPanelContent;
-    JPanel headerStep;
     JPanel tasks;
-    JScrollPane scrollStep;
-    JLabel iconReload;
-    JLabel iconAdd;
     JPanel panelTitleHome;
     TasksModule createTasksModule;
     UsersOfMyProjectModel createUsersModule;
-    ProjectsModule projectsMpdule;
     JPanel menuItemAux;
     JPanel finishProjectButton;
 

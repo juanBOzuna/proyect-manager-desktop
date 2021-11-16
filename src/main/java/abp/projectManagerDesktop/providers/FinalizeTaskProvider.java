@@ -18,7 +18,7 @@ public class FinalizeTaskProvider {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://localhost:8080/tasks/finalize/taskId=13")
+                .url("http://localhost:8080/tasks/finalize/taskId=" + id)
                 .method("GET", null)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")
