@@ -12,7 +12,7 @@ import abp.projectManagerDesktop.homePromotor.HomePromotor;
 import abp.projectManagerDesktop.providers.LoginProvider;
 import abp.projectManagerDesktop.providers.Models.LoginResponseModel;
 import abp.projectManagerDesktop.providers.UserPreferences;
-import abp.projectManagerDesktop.register.Register;
+//import abp.projectManagerDesktop.register.Register;
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
@@ -46,7 +46,7 @@ class VentanaLogin extends JFrame implements MouseListener {
     JLabel picLabelLoading;
     Tfmfld inputEmail;
     Tfmfld inputPassword;
-    JLabel register;
+//    JLabel register;
 //    ConectionPreferences prefs = new ConectionPreferences();
 
     public VentanaLogin(int widthScreenSize, int heightScreenSize) {
@@ -145,14 +145,13 @@ class VentanaLogin extends JFrame implements MouseListener {
         button.setVisible(true);
         form.add(button);
 
-        register = new JLabel("Registrarse");
-        register.setBounds(button.getX(), button.getY() + button.getHeight() + 5, button.getWidth(), button.getHeight());
-        register.setHorizontalAlignment(SwingConstants.CENTER);
-        register.setCursor(new Cursor(HAND_CURSOR));
-        register.setForeground(constantUtilities.primaryColor);
-        register.addMouseListener(this);
-        form.add(register);
-
+//        register = new JLabel("Registrarse");
+//        register.setBounds(button.getX(), button.getY() + button.getHeight() + 5, button.getWidth(), button.getHeight());
+//        register.setHorizontalAlignment(SwingConstants.CENTER);
+//        register.setCursor(new Cursor(HAND_CURSOR));
+//        register.setForeground(constantUtilities.primaryColor);
+//        register.addMouseListener(this);
+//        form.add(register);
         Icon imgLoading = new ImageIcon("C:\\Users\\juan barraza\\IdeaProjects\\step_gui_abp\\src\\icons\\loading1.gif");
         picLabelLoading = new JLabel(imgLoading);
         picLabelLoading.setBounds((form.getWidth() / 2) - 25, inputPassword.getY() + 50, 50, 50);
@@ -182,10 +181,10 @@ class VentanaLogin extends JFrame implements MouseListener {
             }
         }
 
-        if (evento.getSource() == register) {
-            Register.main(null);
-            this.dispose();
-        }
+//        if (evento.getSource() == register) {
+//            Register.main(null);
+//            this.dispose();
+//        }
     }
 
     void login() {
