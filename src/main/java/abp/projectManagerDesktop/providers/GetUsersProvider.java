@@ -66,6 +66,16 @@ public class GetUsersProvider {
             userModel.setRole(user.getString("role"));
 
             try {
+                userModel.setProjectId(user.getLong("projectId"));
+            } catch (Exception e) {
+            }
+
+            try {
+                userModel.setTaskId(user.getLong("taskId"));
+            } catch (Exception e) {
+            }
+
+            try {
                 userModel.setHiring_date(user.getString("hiring_date"));
             } catch (Exception e) {
             }

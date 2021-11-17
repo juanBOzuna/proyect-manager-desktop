@@ -97,7 +97,7 @@ public class DialogAddUsersToProject extends JDialog {
             }
 
             try {
-                if (post.postUser(userSelected.getAddress(), userSelected.getDni(), userSelected.getEmail(), userSelected.getLastname(), userSelected.getName(), userSelected.getNumber_phone(), userSelected.getRole(), userSelected.getHiring_date(), userSelected.getPassword(), true, true, userSelected.getId(), constantUtilities.projectId)) {
+                if (post.postUser(userSelected.getAddress(), userSelected.getDni(), userSelected.getEmail(), userSelected.getLastname(), userSelected.getName(), userSelected.getNumber_phone(), userSelected.getRole(), userSelected.getHiring_date(), userSelected.getPassword(), true, true, userSelected.getId(), constantUtilities.projectId, null)) {
                     this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
                 } else {
                     this.dispose();

@@ -14,7 +14,7 @@ import okhttp3.*;
  */
 public class PostUserProvider {
 
-    public Boolean postUser(String address, String dni, String email, String lastName, String name, String number_phone, String role, String date, String passsword, Boolean update, Boolean changeProject, Long id, Long projectId) throws IOException {
+    public Boolean postUser(String address, String dni, String email, String lastName, String name, String number_phone, String role, String date, String passsword, Boolean update, Boolean changeProject, Long id, Long projectId, Long taskId) throws IOException {
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -22,9 +22,9 @@ public class PostUserProvider {
         RequestBody body;
         if (update) {
             if (changeProject) {
-                body = RequestBody.create(mediaType, "{\r\n    \"user\": {\r\n        \"id\":" + id + ",\r\n     \"projectId\":" + projectId + ",\r\n      \"address\": \"" + address + "\",\r\n        \"dni\": \"" + dni + "\",\r\n        \"email\": \"" + email + "\",\r\n        \"password\": \"" + passsword + "\",\r\n        \"lastname\":\"" + lastName + "\",\r\n        \"name\":\"" + name + "\",\r\n        \"number_phone\":\"" + number_phone + "\",\r\n        \"role\":\"" + role + "\"\r\n    },\r\n    \"date\": \"" + date + "\"\r\n}");
+                body = RequestBody.create(mediaType, "{\r\n    \"user\": {\r\n        \"id\":" + id + ",\r\n        \"projectId\":" + projectId + ",\r\n        \"taskId\":" + taskId + ",\r\n        \"address\": \"" + address + "\",\r\n        \"dni\": \"" + dni + "\",\r\n        \"email\": \"" + email + "\",\r\n        \"password\": \"" + passsword + "\",\r\n        \"lastname\":\"" + lastName + "\",\r\n        \"name\":\"" + name + "\",\r\n        \"number_phone\":\"" + number_phone + "\",\r\n        \"role\":\"" + role + "\"\r\n    },\r\n    \"date\": \"" + date + "\"\r\n}");
             } else {
-                body = RequestBody.create(mediaType, "{\r\n    \"user\": {\r\n        \"id\":" + id + ",\r\n        \"address\": \"" + address + "\",\r\n        \"dni\": \"" + dni + "\",\r\n        \"email\": \"" + email + "\",\r\n        \"password\": \"" + passsword + "\",\r\n        \"lastname\":\"" + lastName + "\",\r\n        \"name\":\"" + name + "\",\r\n        \"number_phone\":\"" + number_phone + "\",\r\n        \"role\":\"" + role + "\"\r\n    },\r\n    \"date\": \"" + date + "\"\r\n}");
+                body = RequestBody.create(mediaType, "{\r\n    \"user\": {\r\n        \"id\":" + id + ",\r\n        \"projectId\":" + projectId + ",\r\n        \"taskId\":" + taskId + ",\r\n        \"address\": \"" + address + "\",\r\n        \"dni\": \"" + dni + "\",\r\n        \"email\": \"" + email + "\",\r\n        \"password\": \"" + passsword + "\",\r\n        \"lastname\":\"" + lastName + "\",\r\n        \"name\":\"" + name + "\",\r\n        \"number_phone\":\"" + number_phone + "\",\r\n        \"role\":\"" + role + "\"\r\n    },\r\n    \"date\": \"" + date + "\"\r\n}");
             }
         } else {
             body = RequestBody.create(mediaType, "{\r\n    \"user\": {\r\n        \"address\": \"" + address + "\",\r\n        \"dni\": \"" + dni + "\",\r\n        \"email\": \"" + email + "\",\r\n        \"password\": \"" + passsword + "\",\r\n        \"lastname\": \"" + lastName + "\",\r\n        \"name\": \"" + name + "\",\r\n        \"number_phone\": \"" + number_phone + "\",\r\n        \"role\": \"" + role + "\"\r\n    },\r\n    \"date\": \"" + date + "\"\r\n}");

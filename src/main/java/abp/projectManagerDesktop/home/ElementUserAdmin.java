@@ -26,7 +26,7 @@ import javax.swing.JPanel;
  */
 public class ElementUserAdmin extends JPanel implements MouseListener {
 
-    JLabel picLabel;
+//    JLabel picLabel;
     JLabel picLabelDelete;
     JLabel picLabelEdit;
     JFrame padre;
@@ -60,14 +60,14 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
         picLabelDelete.setCursor(new Cursor(HAND_CURSOR));
         picLabelDelete.setBounds(xEye, (h / 2 - (wImage / 2)), wImage, wImage);
 
-        xEye -= (wImage + 5);
-        Image img = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/eye.png").getImage();
-        ImageIcon img2 = new ImageIcon(img.getScaledInstance(wImage, wImage, Image.SCALE_SMOOTH));
-        picLabel = new JLabel();
-        picLabel.setIcon(img2);
-        picLabel.addMouseListener(this);
-        picLabel.setCursor(new Cursor(HAND_CURSOR));
-        picLabel.setBounds(xEye, (h / 2 - (wImage / 2)), wImage, wImage);
+//        xEye -= (wImage + 5);
+//        Image img = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/eye.png").getImage();
+//        ImageIcon img2 = new ImageIcon(img.getScaledInstance(wImage, wImage, Image.SCALE_SMOOTH));
+//        picLabel = new JLabel();
+//        picLabel.setIcon(img2);
+//        picLabel.addMouseListener(this);
+//        picLabel.setCursor(new Cursor(HAND_CURSOR));
+//        picLabel.setBounds(xEye, (h / 2 - (wImage / 2)), wImage, wImage);
 
         xEye -= (wImage + 5);
         Image imgEdit = new ImageIcon("src/main/java/abp/projectManagerDesktop/assets/edit.png").getImage();
@@ -86,7 +86,7 @@ public class ElementUserAdmin extends JPanel implements MouseListener {
         title.add(titleText);
 
         add(title);
-        add(picLabel);
+//        add(picLabel);
         add(picLabelEdit);
         add(picLabelDelete);
     }

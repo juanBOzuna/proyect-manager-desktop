@@ -292,7 +292,8 @@ class VentanaHome extends JFrame implements MouseListener {
             DecimalFormat formato1 = new DecimalFormat("#.00");
 
             // add subtitle
-            labelSubtitle = new JLabel("Porcentaje del proyecto: " + formato1.format(projects.get(i).getProject().getPercentageCompleted()) + " %");
+            String textCompleted = projects.get(i).getProject().getIsCompleted() ? "Finalizado" : "No Finalizado";
+            labelSubtitle = new JLabel(formato1.format(projects.get(i).getProject().getPercentageCompleted()) + " %" + " - " + textCompleted);
             labelSubtitle.setFont(new Font("Segoe UI", 0, 12));
             labelSubtitle.setBounds(0, (int) (labelTitle.getHeight() * 2.5), widthStep, 14);
             labelSubtitle.setForeground(Color.gray);

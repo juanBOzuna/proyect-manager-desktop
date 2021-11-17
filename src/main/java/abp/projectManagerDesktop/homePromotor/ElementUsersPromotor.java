@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -31,11 +32,14 @@ public class ElementUsersPromotor extends JPanel implements MouseListener {
     JLabel picLabel;
     JLabel picLabelDelete;
     JLabel picLabelEdit;
+    UserModel user;
 //    TaskModel task;
 
     public ElementUsersPromotor(int x, int y, int w, int h, JFrame marcoFather, UserModel user) {
         this.w = w;
         this.h = h;
+
+        this.user = user;
 
         setBounds(x, y, w, h);
         setBackground(constantUtilities.colorItemTask);
@@ -77,7 +81,7 @@ public class ElementUsersPromotor extends JPanel implements MouseListener {
         title.setLayout(new GridLayout(1, 1));
         title.setBounds(10, (h / 2) - (((h / 2) - 5) / 2), xEye - 20, (h / 2) - 5);
 
-        JLabel titleText = new JLabel(user.getName() + " "+ user.getLastname());
+        JLabel titleText = new JLabel(user.getName() + " " + user.getLastname());
         title.add(titleText);
 
         add(title);
@@ -86,7 +90,38 @@ public class ElementUsersPromotor extends JPanel implements MouseListener {
 //        add(picLabelDelete);
     }
 
+    String getDataUSer() {
+        String content = "PROJECTO #" + user.getId() + " - " + user.getName();
+        try {
+            content += "\nDireccion: " + user.getAddress();
+        } catch (Exception e) {
+        }
+
+        try {
+//            String dateInit = projectModel.getProject().getDate_init().substring(0, 10);
+            content += "\nNumero de telefono: " + user.getNumber_phone();
+        } catch (Exception e) {
+        }
+
+        try {
+//            String dateFinish = projectModel.getProject().getDate_finish().substring(0, 10);
+            content += "\nCorreo : " + user.getEmail();
+        } catch (Exception e) {
+        }
+
+        try {
+            String dateHiring = user.getHiring_date().substring(0, 10);
+            content += "\nFecha de contratacion : " + dateHiring;
+        } catch (Exception e) {
+        }
+
+        return content;
+    }
+
     public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == picLabel) {
+  JOptionPane.showMessageDialog(null, getDataUSer());
+        }
 
     }
 

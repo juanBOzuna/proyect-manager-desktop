@@ -19,6 +19,7 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -106,9 +107,30 @@ public class ElementTasksPromotor extends JPanel implements MouseListener {
         return edit;
     }
 
+    String getDataTask() {
+        String content = "TAREA #" + task.getId() + " - " + task.getName();
+
+        try {
+            String totally = task.getIs_completed() ? "Si" : "No";
+            content += "\nTarea Completada: " + totally;
+        } catch (Exception e) {
+        }
+
+        try {
+            String totally = task.getHasEmployee() ? "Si" : "No";
+            content += "\nTiene usuario asignado?: " + totally;
+        } catch (Exception e) {
+        }
+
+        return content;
+    }
+
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == picLabelDelete) {
             delete.setVisible(true);
+        }
+        if (e.getSource() == picLabel) {
+            JOptionPane.showMessageDialog(null, getDataTask());
         }
         if (e.getSource() == picLabelEdit) {
             edit.setVisible(true);

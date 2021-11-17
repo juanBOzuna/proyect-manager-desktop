@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -104,6 +105,42 @@ public class ElementProjectAdmin extends JPanel implements MouseListener {
         return (int) (h * number);
     }
 
+    String getDataProject() {
+        String content = "PROJECTO #" + projectModel.getProject().getId() + " - " + projectModel.getProject().getName();
+        try {
+            content += "\nNombre en clave: " + projectModel.getProject().getKey_name();
+        } catch (Exception e) {
+        }
+
+        try {
+            String dateInit = projectModel.getProject().getDate_init().substring(0, 10);
+            content += "\nFecha de inicio: " + dateInit;
+        } catch (Exception e) {
+        }
+
+        try {
+            String dateFinish = projectModel.getProject().getDate_finish().substring(0, 10);
+            content += "\nFecha de fin : " + dateFinish;
+        } catch (Exception e) {
+        }
+
+        try {
+            content += "\nPromtor : " + projectModel.getPromotor().getName();
+        } catch (Exception e) {
+        }
+        try {
+            content += "\nCompletado hasta el " + projectModel.getProject().getPercentageCompleted() + "%";
+        } catch (Exception e) {
+        }
+        try {
+            String totally = projectModel.getProject().getIsCompleted() ? "Si" : "No";
+            content += "\nTotalmente completado: " + totally;
+        } catch (Exception e) {
+        }
+
+        return content;
+    }
+
     public DialogDeleteProject getDialogDelete() {
         return dialogDelete;
     }
@@ -116,6 +153,10 @@ public class ElementProjectAdmin extends JPanel implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == picLabelEdit) {
             edit.setVisible(true);
+        }
+        if (e.getSource() == picLabel) {
+
+            JOptionPane.showMessageDialog(null, getDataProject());
         }
 //
         if (e.getSource() == picLabelDelete) {

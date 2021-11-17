@@ -88,8 +88,9 @@ public class DialogRegisterTask extends JDialog {
             }
         } else {
             try {
-                comboEmplpoyees.addItem("Ninguno");
                 employees = getUsersWithoutTask.get();
+                comboEmplpoyees.addItem("Ninguno");
+
             } catch (Exception e) {
             }
         }
@@ -110,13 +111,16 @@ public class DialogRegisterTask extends JDialog {
 
         comboEmplpoyees = new JComboBox();
         comboEmplpoyees.setBounds(swfp(0.1), 130, w / 2, 30);
-//        if (!edit) {
+        if (!edit) {
 
             comboEmplpoyees.addItem("Ninguno");
-//        }
+        }
         try {
             for (UserModel employee : employees) {
                 comboEmplpoyees.addItem(employee.getId() + "-" + employee.getName());
+            }
+            if (edit) {
+                comboEmplpoyees.addItem("Ninguno");
             }
             comboEmplpoyees.addItemListener(new ItemListener() {
                 public void itemStateChanged(ItemEvent itemEvent) {

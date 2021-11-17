@@ -23,6 +23,7 @@ public class ProjectModel {
     private Long promotor_id;
     private Timestamp created_at;
     private double percentageCompleted;
+    private Boolean isCompleted;
 
     public Long getId() {
         return id;
@@ -78,6 +79,14 @@ public class ProjectModel {
 
     public void setPromotor_id(Long promotor_id) {
         this.promotor_id = promotor_id;
+    }
+
+    public Boolean getIsCompleted() {
+        return isCompleted;
+    }
+
+    public void setIsCompleted(Boolean isCompleted) {
+        this.isCompleted = isCompleted;
     }
 
     public Timestamp getCreated_at() {

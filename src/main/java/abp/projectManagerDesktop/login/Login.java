@@ -181,10 +181,6 @@ class VentanaLogin extends JFrame implements MouseListener {
             }
         }
 
-//        if (evento.getSource() == register) {
-//            Register.main(null);
-//            this.dispose();
-//        }
     }
 
     void login() {
