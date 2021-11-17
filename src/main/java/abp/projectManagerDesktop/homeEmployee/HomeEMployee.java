@@ -128,7 +128,7 @@ class WindowEmployee extends JFrame implements MouseListener {
         panelTasks.setLayout(null);
         panelTasks.setBackground(new ColorUIResource(238, 238, 238));
 
-        titlePanel = new JLabel("Promotores");
+        titlePanel = new JLabel("Mis tareas para completar");
         titlePanel.setBounds(0, (int) (heightPanel * 0.0398), widthPanel - widthImage - 10, (int) (heightPanel * 0.0657));
         titlePanel.setFont(new Font("Segoe UI", 0, 25));
         panelTasks.add(titlePanel);
