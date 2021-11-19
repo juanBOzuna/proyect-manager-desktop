@@ -138,7 +138,7 @@ class WindowEmployee extends JFrame implements MouseListener {
 
             yElement = titlePanel.getY() + titlePanel.getHeight() + 10;
 
-            panelTasks.add(AddTask(0, yElement, widthPanel, 70));
+            panelTasks.add(AddTask(0, yElement, widthPanel, 70, task));
         } catch (Exception e) {
         }
 //        try {
@@ -166,7 +166,7 @@ class WindowEmployee extends JFrame implements MouseListener {
 
     }
 
-    JPanel AddTask(int x, int y, int w, int h) {
+    JPanel AddTask(int x, int y, int w, int h, TaskModel task) {
         panelTask = new JPanel();
         //    UserModel user;
         //    DialogDeleteUser delete;
@@ -216,7 +216,7 @@ class WindowEmployee extends JFrame implements MouseListener {
         title.setBackground(Color.white);
         title.setBounds(10, (h / 2) - (((h / 2) - 5) / 2), xEye - 20, (h / 2) - 5);
 
-        JLabel titleText = new JLabel("asds");
+        JLabel titleText = new JLabel(task.getName());
         titleText.setBackground(Color.white);
         title.add(titleText);
 
