@@ -11,12 +11,15 @@ package abp.projectManagerDesktop.providers;
  */
 import abp.projectManagerDesktop.constants.constantUtilities;
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 import okhttp3.*;
 
 public class PostTaskProvider {
 
     public Boolean post(String name, Long employeeId, Boolean edit, Long oldIdUser, Long idTask) throws IOException {
-        OkHttpClient client = new OkHttpClient().newBuilder()
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
+                .readTimeout(15, TimeUnit.MINUTES)
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = null;
@@ -29,7 +32,7 @@ public class PostTaskProvider {
         Request request = null;
         if (edit) {
             request = new Request.Builder()
-                    .url("http://localhost:8080/tasks/editTask")
+                    .url(constantUtilities.URL_API+"/tasks/editTask")
                     .method("POST", body)
                     .addHeader("Accept", "application/json")
                     .addHeader("Content-Type", "application/json")
@@ -37,7 +40,7 @@ public class PostTaskProvider {
         } else {
 
             request = new Request.Builder()
-                    .url("http://localhost:8080/tasks")
+                    .url(constantUtilities.URL_API+"/tasks")
                     .method("POST", body)
                     .addHeader("Accept", "application/json")
                     .addHeader("Content-Type", "application/json")

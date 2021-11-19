@@ -15,6 +15,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,10 +23,12 @@ import org.json.JSONObject;
 public class GetUsersWithoutTask {
 
     public ArrayList<UserModel> get() throws IOException {
-        OkHttpClient client = new OkHttpClient().newBuilder()
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
+                .readTimeout(15, TimeUnit.MINUTES)
                 .build();
         Request request = new Request.Builder()
-                .url("http://localhost:8080/user/without_task/projectId=" + constantUtilities.projectId)
+                .url(constantUtilities.URL_API+"/user/without_task/projectId=" + constantUtilities.projectId)
                 .method("GET", null)
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")

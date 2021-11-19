@@ -9,8 +9,10 @@ package abp.projectManagerDesktop.providers;
  *
  * @author juan barraza
  */
+import abp.projectManagerDesktop.constants.constantUtilities;
 import java.io.*;
 import java.sql.Timestamp;
+import java.util.concurrent.TimeUnit;
 import okhttp3.*;
 
 public class PostProjectProvider {
@@ -18,7 +20,9 @@ public class PostProjectProvider {
     public Boolean postProyect(String name, String key_name, String comercial_designation, String date_init, String date_finish, long promotor_id, Boolean update, Long id) throws IOException {
         System.out.println("Usuario promotor: " + promotor_id);
 
-        OkHttpClient client = new OkHttpClient().newBuilder()
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
+                .readTimeout(15, TimeUnit.MINUTES)
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
 //        System.out.println("");
@@ -33,7 +37,7 @@ public class PostProjectProvider {
 //        RequestBody 
 
         Request request = new Request.Builder()
-                .url("http://localhost:8080/projects")
+                .url(constantUtilities.URL_API+":8080/projects")
                 .method("POST", body)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")

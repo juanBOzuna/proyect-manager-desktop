@@ -195,8 +195,9 @@ public class DialogRegisterProject extends JDialog {
 
                     if (call) {
                         this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+                    } else {
+                        this.dispose();
                     }
-
                 } catch (IOException e) {
                 }
             }
