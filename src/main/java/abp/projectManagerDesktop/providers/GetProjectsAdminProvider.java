@@ -5,6 +5,7 @@ package abp.projectManagerDesktop.providers;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import abp.projectManagerDesktop.constants.constantUtilities;
 import abp.projectManagerDesktop.providers.Models.DocumentModel;
 import abp.projectManagerDesktop.providers.Models.ProjectModel;
 import abp.projectManagerDesktop.providers.Models.ResponseGetProjectsAdminModel;
@@ -22,6 +23,7 @@ import javax.swing.JOptionPane;
 import java.io.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 import okhttp3.*;
 
 /**
@@ -34,11 +36,13 @@ public class GetProjectsAdminProvider {
     
     public ArrayList<ResponseGetProjectsAdminModel> getProjects() throws IOException {
         
-        OkHttpClient client = new OkHttpClient().newBuilder()
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
+                .readTimeout(15, TimeUnit.MINUTES)
                 .build();
         
         Request request = new Request.Builder()
-                .url("http://localhost:8080/projects")
+                .url(constantUtilities.URL_API+"/projects")
                 .method("GET", null)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")

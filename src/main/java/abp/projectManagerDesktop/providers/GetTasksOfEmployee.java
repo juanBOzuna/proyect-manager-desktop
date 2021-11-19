@@ -9,9 +9,11 @@ package abp.projectManagerDesktop.providers;
  *
  * @author juan barraza
  */
+import abp.projectManagerDesktop.constants.constantUtilities;
 import abp.projectManagerDesktop.providers.Models.TaskModel;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,10 +21,12 @@ import org.json.JSONObject;
 public class GetTasksOfEmployee {
 
     public TaskModel get(Long id) throws IOException {
-        OkHttpClient client = new OkHttpClient().newBuilder()
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
+                .readTimeout(15, TimeUnit.MINUTES)
                 .build();
         Request request = new Request.Builder()
-                .url("http://localhost:8080/user/myTask/userId=" + id)
+                .url(constantUtilities.URL_API+"/user/myTask/userId=" + id)
                 .method("GET", null)
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")

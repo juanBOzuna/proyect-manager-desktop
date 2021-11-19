@@ -5,7 +5,9 @@
  */
 package abp.projectManagerDesktop.providers;
 
+import abp.projectManagerDesktop.constants.constantUtilities;
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 import okhttp3.*;
 
 /**
@@ -16,7 +18,9 @@ public class PostUserProvider {
 
     public Boolean postUser(String address, String dni, String email, String lastName, String name, String number_phone, String role, String date, String passsword, Boolean update, Boolean changeProject, Long id, Long projectId, Long taskId) throws IOException {
 
-        OkHttpClient client = new OkHttpClient().newBuilder()
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
+                .readTimeout(15, TimeUnit.MINUTES)
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body;
@@ -31,7 +35,7 @@ public class PostUserProvider {
         }
 
         Request request = new Request.Builder()
-                .url("http://localhost:8080/user")
+                .url(constantUtilities.URL_API+"/user")
                 .method("POST", body)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")

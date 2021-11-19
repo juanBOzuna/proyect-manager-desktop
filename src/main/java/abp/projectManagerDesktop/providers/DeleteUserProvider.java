@@ -9,18 +9,22 @@ package abp.projectManagerDesktop.providers;
  *
  * @author juan barraza
  */
+import abp.projectManagerDesktop.constants.constantUtilities;
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 import okhttp3.*;
 
 public class DeleteUserProvider {
 
     public Boolean delete(Long id) throws IOException {
-        OkHttpClient client = new OkHttpClient().newBuilder()
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
+                .readTimeout(15, TimeUnit.MINUTES)
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, "");
         Request request = new Request.Builder()
-                .url("http://localhost:8080/user/" + id)
+                .url(constantUtilities.URL_API+"/user/" + id)
                 .method("DELETE", body)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")

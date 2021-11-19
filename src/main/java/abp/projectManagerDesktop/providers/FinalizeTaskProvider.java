@@ -9,16 +9,20 @@ package abp.projectManagerDesktop.providers;
  *
  * @author juan barraza
  */
+import abp.projectManagerDesktop.constants.constantUtilities;
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 import okhttp3.*;
 
 public class FinalizeTaskProvider {
 
     public Boolean finalize(Long id) throws IOException {
-        OkHttpClient client = new OkHttpClient().newBuilder()
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
+                .readTimeout(15, TimeUnit.MINUTES)
                 .build();
         Request request = new Request.Builder()
-                .url("http://localhost:8080/tasks/finalize/taskId=" + id)
+                .url(constantUtilities.URL_API+"/tasks/finalize/taskId=" + id)
                 .method("GET", null)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")

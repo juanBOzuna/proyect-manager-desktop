@@ -13,6 +13,7 @@ import abp.projectManagerDesktop.constants.constantUtilities;
 import abp.projectManagerDesktop.providers.Models.UserModel;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,10 +21,12 @@ import org.json.JSONObject;
 public class GetUsersOfEditTask {
 
     public ArrayList<UserModel> get(Long taskId) throws IOException {
-        OkHttpClient client = new OkHttpClient().newBuilder()
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(15, TimeUnit.MINUTES)
+                .writeTimeout(15, TimeUnit.MINUTES)
+                .readTimeout(15, TimeUnit.MINUTES)
                 .build();
         Request request = new Request.Builder()
-                .url("http://localhost:8080/user/editTask/projectId="+constantUtilities.projectId+"/taskId=" + taskId)
+                .url(constantUtilities.URL_API+"/user/editTask/projectId="+constantUtilities.projectId+"/taskId=" + taskId)
                 .method("GET", null)
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
