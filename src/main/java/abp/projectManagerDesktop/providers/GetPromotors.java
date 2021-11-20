@@ -38,7 +38,7 @@ public class GetPromotors {
 
         } else {
             request = new Request.Builder()
-                    .url("http://localhost:8080/user/rol=promotor")
+                    .url(constantUtilities.URL_API+"/user/rol=promotor")
                     .method("GET", null)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Accept", "application/json")

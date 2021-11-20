@@ -37,7 +37,7 @@ public class PostProjectProvider {
 //        RequestBody 
 
         Request request = new Request.Builder()
-                .url(constantUtilities.URL_API+":8080/projects")
+                .url(constantUtilities.URL_API+"/projects")
                 .method("POST", body)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")

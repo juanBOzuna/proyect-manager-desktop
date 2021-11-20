@@ -73,7 +73,7 @@ public class DialogRegisterUser extends JDialog {
         x = 150;
 
         setBounds(x, y, w, h);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.);
         setTitle("Agregar nuevo proyecto");
         setLayout(null);
         initComponents();
