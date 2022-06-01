@@ -15,7 +15,7 @@ import javax.swing.plaf.ColorUIResource;
  * @author juan barraza
  */
 public class constantUtilities {
-    final static public String URL_API = "http://project-manager-backend-332700.rj.r.appspot.com";
+    final static public String URL_API = "http://localhost:8080";
     static public UserModel usuario;
     static public Long projectId;
     static public String nameProject;

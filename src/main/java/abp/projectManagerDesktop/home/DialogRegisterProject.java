@@ -215,11 +215,11 @@ public class DialogRegisterProject extends JDialog {
         comboFinishYear.setBounds(20, titleFinish.getY() + titleFinish.getHeight(), (getWidth() / 4) - 40, getWidth() / 14);
         Date date = new Date();
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        int year = localDate.getYear();
+        int year = localDate.getYear() - 10;
         int month = localDate.getMonthValue();
         int day = localDate.getDayOfMonth();
         yearFinish = String.valueOf(year);
-        for (int i = year; i < (year + 50); i++) {
+        for (int i = year; i < (year + 60); i++) {
             comboFinishYear.addItem("" + (i));
         }
 
@@ -277,7 +277,8 @@ public class DialogRegisterProject extends JDialog {
                 comboFinishMonth.setSelectedIndex(Integer.parseInt(parts[1]) - 1);
                 int indexDay = Integer.parseInt(parts[2]) - 1;
                 comboFinishDay.setSelectedIndex(Integer.parseInt(parts[2]) - 1);
-                comboFinishYear.setSelectedIndex(Integer.parseInt(parts[0]) - year);
+//                comboFinishYear.setSelectedIndex(2071 - Integer.parseInt(parts[0]));;
+                comboFinishYear.setSelectedItem(parts[0]);
             } catch (Exception e) {
             }
 
@@ -296,11 +297,11 @@ public class DialogRegisterProject extends JDialog {
         comboInitYear.setBounds(20, titleInit.getY() + titleInit.getHeight(), (getWidth() / 4) - 40, getWidth() / 14);
         Date date = new Date();
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        int year = localDate.getYear();
+        int year = localDate.getYear()-10;
         int month = localDate.getMonthValue();
         int day = localDate.getDayOfMonth();
         yearInit = String.valueOf(year);
-        for (int i = year; i < (year + 50); i++) {
+        for (int i = year; i < (year + 60); i++) {
             comboInitYear.addItem("" + (i));
         }
 
@@ -359,9 +360,10 @@ public class DialogRegisterProject extends JDialog {
             String dateInitOfProject = String.valueOf(projectRegister.getProject().getDate_init());
             String[] parts = dateInitOfProject.substring(0, 10).split("-");
             comboInitMonth.setSelectedIndex(Integer.parseInt(parts[1]) - 1);
-            int indexDay = Integer.parseInt(parts[2]) - 1;
+//            int indexDay = Integer.parseInt(parts[2]) - 1;
             comboInitDay.setSelectedIndex(Integer.parseInt(parts[2]) - 1);
-            comboInitYear.setSelectedIndex(Integer.parseInt(parts[0]) - year);
+//            comboInitYear.setSelectedIndex(Integer.parseInt(parts[0]) - year);
+            comboInitYear.setSelectedItem(parts[0]);
 
         }
         add(titleInit);

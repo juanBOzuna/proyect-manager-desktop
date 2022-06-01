@@ -8,12 +8,13 @@ package abp.projectManagerDesktop.providers.Models;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+
 /**
  *
  * @author juan barraza
  */
 public class ProjectModel {
-
+       
     private Long id;
     private String name;
     private String key_name;

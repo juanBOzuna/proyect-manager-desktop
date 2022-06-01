@@ -290,19 +290,36 @@ public class DialogRegisterUser extends JDialog {
 
                     }
                 } else {
-                    long projectIdAct = user.getProjectId();
-                    call = p.postUser(address.GetFormValue(),
-                            dni.GetFormValue(),
-                            email.GetFormValue(),
-                            lastName.GetFormValue(),
-                            name.GetFormValue(),
-                            number_phone.GetFormValue(),
-                            String.valueOf(rol.getSelectedItem()),
-                            yearHiring + "-" + monthHiring + "-" + dayHiring + " 00:00:00",
-                            pass.GetFormValue(),
-                            true, false, user.getId(),
-                            projectIdAct, user.getTaskId()
-                    );
+                    // long projectIdAct = null;
+                    if (user.getProjectId() == null) {
+
+                        call = p.postUser(address.GetFormValue(),
+                                dni.GetFormValue(),
+                                email.GetFormValue(),
+                                lastName.GetFormValue(),
+                                name.GetFormValue(),
+                                number_phone.GetFormValue(),
+                                String.valueOf(rol.getSelectedItem()),
+                                yearHiring + "-" + monthHiring + "-" + dayHiring + " 00:00:00",
+                                pass.GetFormValue(),
+                                true, false, user.getId(),
+                                null, user.getTaskId()
+                        );
+                    } else {
+                        call = p.postUser(address.GetFormValue(),
+                                dni.GetFormValue(),
+                                email.GetFormValue(),
+                                lastName.GetFormValue(),
+                                name.GetFormValue(),
+                                number_phone.GetFormValue(),
+                                String.valueOf(rol.getSelectedItem()),
+                                yearHiring + "-" + monthHiring + "-" + dayHiring + " 00:00:00",
+                                pass.GetFormValue(),
+                                true, false, user.getId(),
+                                user.getProjectId(), user.getTaskId()
+                        );
+                    }
+
                 }
 
                 if (call) {
